@@ -1,0 +1,11 @@
+spring:
+  freemarker:
+    template-loader-path: classpath:/templates
+    suffix: .ftl
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    username: dogeshop
+    password: dogepassword
+    url: jdbc:postgresql://localhost:5432/dogeshop
+  liquibase:
+    change-log: classpath:/db/changelog/db.changelog-master.xml
