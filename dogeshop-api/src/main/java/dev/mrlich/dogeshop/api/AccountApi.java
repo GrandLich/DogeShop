@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 public interface AccountApi {
 
     @GetMapping("/{id}")
-    ResponseEntity<Account> getAccount(@RequestParam("id") Long accountId);
+    ResponseEntity<Account> getAccount(@PathVariable("id") Long accountId);
 
     @PostMapping("/create")
     ResponseEntity<Account> createAccount(@RequestBody CreateAccountRequest request);
