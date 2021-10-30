@@ -1,10 +1,10 @@
 package dev.mrlich.dogeshop.entity;
 
-import dev.mrlich.dogeshop.api.model.Cart;
 import lombok.Data;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.Set;
 
 @Data
 @Entity
@@ -17,7 +17,11 @@ public class AccountEntity {
     private String name;
     private String password;
     private BigDecimal balance;
-    @Embedded
-    private Cart cart;
+
+    @ManyToMany
+    @JoinTable(name = "accountSkinCart",
+    joinColumns = @JoinColumn(name = "accountId"),
+    inverseJoinColumns = @JoinColumn(name = "skinId"))
+    private Set<SkinEntity> cartItems;
 
 }

@@ -2,7 +2,6 @@ package dev.mrlich.dogeshop.controller.api;
 
 import dev.mrlich.dogeshop.api.SkinApi;
 import dev.mrlich.dogeshop.api.exception.SkinAlreadyExistsException;
-import dev.mrlich.dogeshop.api.model.Cart;
 import dev.mrlich.dogeshop.api.model.Skin;
 import dev.mrlich.dogeshop.entity.SkinEntity;
 import dev.mrlich.dogeshop.service.SkinService;
@@ -36,11 +35,6 @@ public class SkinApiImpl implements SkinApi {
     public ResponseEntity<Skin> createSkin(Skin skinDto) {
         SkinEntity skin = skinService.createSkin(skinDto);
         return ResponseEntity.status(201).body(mapper.map(skin, Skin.class));
-    }
-
-    @Override
-    public ResponseEntity<Cart> addToCart(Long skinId) {
-        return null;
     }
 
     @ExceptionHandler(SkinAlreadyExistsException.class)

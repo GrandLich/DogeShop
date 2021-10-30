@@ -1,10 +1,8 @@
 package dev.mrlich.dogeshop.config;
 
 import dev.mrlich.dogeshop.api.model.Account;
-import dev.mrlich.dogeshop.api.model.Cart;
 import dev.mrlich.dogeshop.api.model.Skin;
 import dev.mrlich.dogeshop.entity.AccountEntity;
-import dev.mrlich.dogeshop.entity.CartEntity;
 import dev.mrlich.dogeshop.entity.SkinEntity;
 import ma.glasnost.orika.MapperFacade;
 import ma.glasnost.orika.MapperFactory;
@@ -25,8 +23,6 @@ public class MapperConfiguration {
         factory.classMap(Account.class, AccountEntity.class)
                 .byDefault();
         factory.classMap(Skin.class, SkinEntity.class)
-                .byDefault();
-        factory.classMap(Cart.class, CartEntity.class)
                 .byDefault();
         return factory.getMapperFacade();
     }

@@ -15,7 +15,4 @@ public interface SkinApi {
     @PostMapping("/create")
     ResponseEntity<Skin> createSkin(@RequestBody Skin skin);
 
-    @PostMapping("/addToCart")
-    ResponseEntity<Cart> addToCart(@RequestParam Long skinId);
-
 }
