@@ -31,6 +31,7 @@
 		<liquibase.version>4.3.5</liquibase.version>
 		<lombok.version>1.18.22</lombok.version>
 		<postgresql.driver.version>42.3.0</postgresql.driver.version>
+		<orika.mapper.version>1.5.4</orika.mapper.version>
 
 		<dogeshop.database.connection.url>jdbc:postgresql://localhost:5432/dogeshop</dogeshop.database.connection.url>
 		<dogeshop.database.connection.username>dogeshop</dogeshop.database.connection.username>
@@ -84,6 +85,11 @@
 				<groupId>org.postgresql</groupId>
 				<artifactId>postgresql</artifactId>
 				<version>${postgresql.driver.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>ma.glasnost.orika</groupId>
+				<artifactId>orika-core</artifactId>
+				<version>${orika.mapper.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
