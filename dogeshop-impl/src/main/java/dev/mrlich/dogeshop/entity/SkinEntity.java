@@ -11,7 +11,8 @@ import java.math.BigDecimal;
 public class SkinEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "skin_seq")
+    @SequenceGenerator(name="skin_seq", sequenceName="skin_pk_seq", allocationSize = 1)
     private Long id;
     private String name;
     private String pictureUrl;

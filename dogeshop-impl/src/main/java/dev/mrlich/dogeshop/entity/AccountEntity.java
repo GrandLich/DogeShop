@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.HashSet;
 import java.util.Set;
 
 @Data
@@ -12,16 +13,17 @@ import java.util.Set;
 public class AccountEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "account_seq")
+    @SequenceGenerator(name="account_seq", sequenceName="account_pk_seq", allocationSize = 1)
     private Long id;
     private String name;
     private String password;
-    private BigDecimal balance;
+    private BigDecimal balance = new BigDecimal(0);
 
     @ManyToMany
-    @JoinTable(name = "accountSkinCart",
+    @JoinTable(name = "account_skin_cart",
     joinColumns = @JoinColumn(name = "accountId"),
     inverseJoinColumns = @JoinColumn(name = "skinId"))
-    private Set<SkinEntity> cartItems;
+    private Set<SkinEntity> cartItems = new HashSet<>();
 
 }
