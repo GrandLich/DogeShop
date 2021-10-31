@@ -10,7 +10,7 @@ import java.util.Optional;
 @Repository
 public interface AccountRepository extends CrudRepository<AccountEntity, Long> {
 
-    @Query("select account from AccountEntity account where account.name = ?")
+    @Query("select account from AccountEntity account where account.name = ?1")
     Optional<AccountEntity> findByName(String name);
 
 }
