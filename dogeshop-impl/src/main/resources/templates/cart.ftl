@@ -28,10 +28,9 @@
                     <td>Педигри</td>
                     <td>40 хрывень</td>
                 </tr>
-                <tr></tr>
-                <tr>
-                    <td class="text-end">Итог</td>
-                    <td>40 хрывень</td>
+                <tr class="border-top">
+                    <td class="text-end pt-5 fw-bold">Итог</td>
+                    <td class="pt-5">40 хрывень</td>
                 </tr>
             </tbody>
         </table>
