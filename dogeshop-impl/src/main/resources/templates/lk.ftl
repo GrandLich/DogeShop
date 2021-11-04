@@ -9,7 +9,7 @@
             <img height="150px" src="<@spring.url '/img/profile.png'/>" alt="">
         </div>
         <div>
-            <span style="font-weight: 600;">Злой покупатель</span>
+            <span class="fs-5" style="font-weight: 600;">Злой покупатель</span>
         </div>
         <div class="mt-4">
             <span style="font-weight: 600;">Баланс: 0 рублей</span>
