@@ -11,6 +11,9 @@
         <div>
             <span style="font-weight: 600;">Злой покупатель</span>
         </div>
+        <div class="mt-4">
+            <span style="font-weight: 600;">Баланс: 0 рублей</span>
+        </div>
         <div class="mt-4 col-md-6 offset-md-3 d-flex flex-column">
             <a class="btn btn-light border" href="#">Пополнить баланс</a>
             <a class="btn btn-light border mt-2" href="#">Выйти</a>
