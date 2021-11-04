@@ -1,4 +1,5 @@
 <#assign title = "Главная">
+<#assign authed = false>
 
 <#include "blocks/header.ftl">
 
