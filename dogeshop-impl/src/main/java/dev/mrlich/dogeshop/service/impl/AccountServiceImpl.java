@@ -27,6 +27,11 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    public Optional<AccountEntity> findByNameAndPassword(String name, String password) {
+        return accountRepository.findByNameAndPassword(name, password);
+    }
+
+    @Override
     public AccountEntity createAccount(String name, String password) {
         if(accountRepository.findByName(name).isPresent()) {
             throw new AccountAlreadyExistsException(name);

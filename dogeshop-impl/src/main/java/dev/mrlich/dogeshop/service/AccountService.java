@@ -11,6 +11,8 @@ public interface AccountService {
 
     Optional<AccountEntity> getAccount(String name);
 
+    Optional<AccountEntity> findByNameAndPassword(String name, String password);
+
     @Transactional
     AccountEntity createAccount(String name, String password);
 
