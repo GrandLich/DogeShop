@@ -35,6 +35,25 @@
             </tbody>
         </table>
     </div>
+    <div class="d-flex flex-row justify-content-around mt-3">
+        <button data-bs-toggle="modal" data-bs-target="#successModal" class="btn btn-light rounded border">Купить</button>
+        <button class="btn btn-light rounded border">Очистить</button>
+    </div>
+</div>
+
+
+<div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="background-color: #59E12F;">
+            <div class="modal-header">
+                <h5 class="modal-title" id="successModalLabel">Уведомление</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center">
+                <h2>Покупка успешно совершена</h2>
+            </div>
+        </div>
+    </div>
 </div>
 
 <#include "blocks/footer.ftl">
