@@ -1,9 +1,10 @@
 package dev.mrlich.dogeshop.service;
 
 import dev.mrlich.dogeshop.entity.AccountEntity;
+import dev.mrlich.dogeshop.entity.SkinEntity;
 
-import javax.transaction.Transactional;
 import java.util.Optional;
+import java.util.Set;
 
 public interface AccountService {
 
@@ -13,13 +14,16 @@ public interface AccountService {
 
     Optional<AccountEntity> findByNameAndPassword(String name, String password);
 
-    @Transactional
     AccountEntity createAccount(String name, String password);
 
-    @Transactional
     void deleteAccount(Long id);
 
-    @Transactional
     void updateAccount(AccountEntity account);
+
+    void clearCart(AccountEntity account);
+
+    void addSkinToCart(AccountEntity account, SkinEntity skin);
+
+    Set<SkinEntity> getSkinsInCart(AccountEntity account);
 
 }

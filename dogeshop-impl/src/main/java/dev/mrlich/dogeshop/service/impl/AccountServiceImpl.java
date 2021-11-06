@@ -2,19 +2,26 @@ package dev.mrlich.dogeshop.service.impl;
 
 import dev.mrlich.dogeshop.api.exception.AccountAlreadyExistsException;
 import dev.mrlich.dogeshop.entity.AccountEntity;
+import dev.mrlich.dogeshop.entity.SkinEntity;
 import dev.mrlich.dogeshop.repository.AccountRepository;
 import dev.mrlich.dogeshop.service.AccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
+import javax.persistence.EntityGraph;
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class AccountServiceImpl implements AccountService {
 
     private final AccountRepository accountRepository;
+    private final EntityManager em;
 
     @Override
     public Optional<AccountEntity> getAccount(Long id) {
@@ -33,7 +40,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public AccountEntity createAccount(String name, String password) {
-        if(accountRepository.findByName(name).isPresent()) {
+        if (accountRepository.findByName(name).isPresent()) {
             throw new AccountAlreadyExistsException(name);
         }
         AccountEntity account = new AccountEntity();
@@ -50,6 +57,35 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public void updateAccount(AccountEntity account) {
         accountRepository.save(account);
+    }
+
+    @Override
+    public void clearCart(AccountEntity account) {
+        EntityGraph<?> graph = em.createEntityGraph("AccountEntity.cartItems");
+        TypedQuery<AccountEntity> q = em.createQuery("SELECT a FROM AccountEntity a where a.id = " + account.getId(), AccountEntity.class)
+                .setHint("javax.persistence.fetchgraph", graph);
+        AccountEntity entity = q.getSingleResult();
+        entity.getCartItems().clear();
+        accountRepository.save(account);
+    }
+
+    @Override
+    public void addSkinToCart(AccountEntity account, SkinEntity skin) {
+        EntityGraph<?> graph = em.createEntityGraph("AccountEntity.cartItems");
+        TypedQuery<AccountEntity> q = em.createQuery("SELECT a FROM AccountEntity a where a.id = " + account.getId(), AccountEntity.class)
+                .setHint("javax.persistence.fetchgraph", graph);
+        AccountEntity entity = q.getSingleResult();
+        entity.getCartItems().add(skin);
+        accountRepository.save(account);
+    }
+
+    @Override
+    public Set<SkinEntity> getSkinsInCart(AccountEntity account) {
+        EntityGraph<?> graph = em.createEntityGraph("AccountEntity.cartItems");
+        TypedQuery<AccountEntity> q = em.createQuery("SELECT a FROM AccountEntity a where a.id = " + account.getId(), AccountEntity.class)
+                .setHint("javax.persistence.fetchgraph", graph);
+        AccountEntity entity = q.getSingleResult();
+        return entity.getCartItems();
     }
 
 }

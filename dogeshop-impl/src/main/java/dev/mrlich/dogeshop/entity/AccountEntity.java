@@ -10,11 +10,13 @@ import java.util.Set;
 @Data
 @Entity
 @Table(name = "account")
+@NamedEntityGraph(name = "AccountEntity.cartItems",
+        attributeNodes = @NamedAttributeNode("cartItems"))
 public class AccountEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "account_seq")
-    @SequenceGenerator(name="account_seq", sequenceName="account_pk_seq", allocationSize = 1)
+    @SequenceGenerator(name = "account_seq", sequenceName = "account_pk_seq", allocationSize = 1)
     private Long id;
     private String name;
     private String password;
@@ -22,8 +24,8 @@ public class AccountEntity {
 
     @ManyToMany
     @JoinTable(name = "account_skin_cart",
-    joinColumns = @JoinColumn(name = "accountId"),
-    inverseJoinColumns = @JoinColumn(name = "skinId"))
+            joinColumns = @JoinColumn(name = "accountId"),
+            inverseJoinColumns = @JoinColumn(name = "skinId"))
     private Set<SkinEntity> cartItems = new HashSet<>();
 
 }
