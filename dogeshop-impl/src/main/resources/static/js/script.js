@@ -1,0 +1,1 @@
+$('#mainContainer').css('min-height', 'calc(100vh - '+(Number($('#mainNavbar').outerHeight()) + Number($('footer').outerHeight()))+'px)')
