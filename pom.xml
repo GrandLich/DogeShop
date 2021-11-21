@@ -7,7 +7,8 @@
 		<module>dogeshop-api</module>
 		<module>dogeshop-db</module>
 		<module>dogeshop-impl</module>
-	</modules>
+        <module>dogeshop-domain</module>
+    </modules>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -48,6 +49,11 @@
 			<dependency>
 				<groupId>dev.mrlich</groupId>
 				<artifactId>dogeshop-db</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>dev.mrlich</groupId>
+				<artifactId>dogeshop-domain</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
