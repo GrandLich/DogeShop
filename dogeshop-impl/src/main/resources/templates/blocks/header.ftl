@@ -14,7 +14,7 @@
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light" id="mainNavbar">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand" href="/">
             <img height="100px" src="<@spring.url '/img/logo.png'/>" alt="">
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -23,18 +23,22 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
         </div>
         <#if authed>
-                <div class="d-flex flex-column me-3">
-                    ТУТ ИКОНКА КОРЗИНЫ
-                </div>
+                <a href="/cart">
+					<div class="d-flex flex-column me-3">
+						<img height="100px" src="<@spring.url '/img/cart_icon.png'/>" alt="">
+					</div>
+				</a>
+				<a href="/lk">
             <#else>
                 <div class="d-flex flex-column me-3">
-                    <button class="btn btn-light border mb-1">SignIn</button>
-                    <button class="btn btn-light border">SignUp</button>
+                    <a href="/login"><button class="btn btn-light border mb-1">SignIn</button></a>
+                    <a href="/reg"><button class="btn btn-light border">SignUp</button></a>
                 </div>
         </#if>
-        <a href="">
             <img height="100px" src="<@spring.url '/img/profile.png'/>" alt="">
-        </a>
+        <#if authed>
+            </a>
+        </#if>
     </div>
 </nav>
 
