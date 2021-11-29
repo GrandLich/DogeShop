@@ -1,5 +1,4 @@
 <#assign title = "Корзина">
-<#assign authed = true>
 
 <#include "blocks/header.ftl">
 

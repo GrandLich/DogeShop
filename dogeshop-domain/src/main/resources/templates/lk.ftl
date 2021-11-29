@@ -1,5 +1,4 @@
 <#assign title = "Личный кабинет">
-<#assign authed = true>
 
 <#include "blocks/header.ftl">
 
@@ -9,14 +8,15 @@
             <img height="150px" src="<@spring.url '/img/profile.png'/>" alt="">
         </div>
         <div>
+            <span class="fs-5 d-block" style="font-weight: 600;">${username}</span>
             <span class="fs-5" style="font-weight: 600;">Злой покупатель</span>
         </div>
         <div class="mt-4">
-            <span style="font-weight: 600;">Баланс: 0 рублей</span>
+            <span style="font-weight: 600;">Баланс: ${balance} рублей</span>
         </div>
         <div class="mt-4 col-md-6 offset-md-3 d-flex flex-column">
-            <a class="btn btn-light border" href="#">Пополнить баланс</a>
-            <a class="btn btn-light border mt-2" href="#">Выйти</a>
+            <a class="btn btn-light border" href="/payment">Пополнить баланс</a>
+            <a class="btn btn-light border mt-2" href="#" id="logout_btn">Выйти</a>
         </div>
     </div>
 
@@ -45,3 +45,23 @@
 </div>
 
 <#include "blocks/footer.ftl">
+
+<script>
+
+$(document).ready(function(){
+    $("#logout_btn").on('click', function(e){
+		e.preventDefault();
+            $.ajax({
+                url:'/api/auth/logout',
+                type:'post',
+                success:function(response) {
+                    window.location = "/";
+                },
+                error: function (err) {
+                    console.log(err)
+                }
+            });
+    });
+});
+
+</script>

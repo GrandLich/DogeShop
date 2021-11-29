@@ -1,11 +1,13 @@
 <#assign title = "Аутентификация">
-<#assign authed = false>
 
 <#include "blocks/header.ftl">
 
 <div class="p-2 row">
     <div class="col-md-6 offset-md-3">
         <form action="" method="post" id="login_form">
+            <div id="registerFail" class="alert alert-danger text-center d-none">
+        		Неправильный логин или пароль
+        	</div>
             <div class="mb-3">
                 <label for="username" class="col-form-label">Имя пользователя: <span class="text-danger">*</span></label>
                 <input type="text" class="form-control" id="username" name="username" required>
@@ -28,10 +30,11 @@
 $(document).ready(function(){
     $("#login_form").on('submit', function(e){
 		e.preventDefault();
+		$('#registerFail').addClass('d-none');
         let username = $("#username").val().trim();
         let password = $("#password").val().trim();
         let data = {
-            username: username,
+            name: username,
             password: password
         }
         if( username.length !== 0 && password.length !== 0 ){
@@ -45,15 +48,15 @@ $(document).ready(function(){
                 success:function(response){
                     $('#submit_login').removeClass('disabled').removeAttr('disabled');
                     console.log(response)
-                    if(response === 1){
+					if(response.accountName != null) {
                         window.location = "/lk";
-                    }else{
-						alert("Invalid username and password!");
+                    }else {
+						$('#registerFail').removeClass('d-none').text('Неправильный логин или пароль');
                     }
                 },
                 error: function (err) {
                     $('#submit_login').removeClass('disabled').removeAttr('disabled');
-                    console.log(err)
+                    $('#registerFail').removeClass('d-none').text('Произошла ошибка. Обратитесь к девепоперу');
                 }
             });
         }

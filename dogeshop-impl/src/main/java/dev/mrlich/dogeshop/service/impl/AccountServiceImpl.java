@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityGraph;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
+import java.math.BigDecimal;
 import java.util.Optional;
 import java.util.Set;
 
@@ -76,6 +77,12 @@ public class AccountServiceImpl implements AccountService {
                 .setHint("javax.persistence.fetchgraph", graph);
         AccountEntity entity = q.getSingleResult();
         entity.getCartItems().add(skin);
+        accountRepository.save(account);
+    }
+
+    @Override
+    public void setBalance(AccountEntity account, BigDecimal balance) {
+        account.setBalance(balance);
         accountRepository.save(account);
     }
 

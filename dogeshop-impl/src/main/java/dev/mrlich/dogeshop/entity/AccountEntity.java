@@ -28,4 +28,9 @@ public class AccountEntity {
             inverseJoinColumns = @JoinColumn(name = "skinId"))
     private Set<SkinEntity> cartItems = new HashSet<>();
 
+    @Override
+    public String toString() {
+        return id+":"+name;
+    }
+
 }
