@@ -8,7 +8,7 @@
         <form action="" method="post" id="login_form">
             <div class="mb-3">
                 <label for="username" class="col-form-label">Имя пользователя: <span class="text-danger">*</span></label>
-                <input type="username" class="form-control" id="username" name="username" required>
+                <input type="text" class="form-control" id="username" name="username" required>
             </div>
             <div class="mb-3">
                 <label for="password" class="col-form-label">Пароль: <span class="text-danger">*</span></label>
@@ -28,20 +28,32 @@
 $(document).ready(function(){
     $("#login_form").on('submit', function(e){
 		e.preventDefault();
-        var username = $("#username").val().trim();
-        var password = $("#password").val().trim();
-
-        if( username != "" && password != "" ){
+        let username = $("#username").val().trim();
+        let password = $("#password").val().trim();
+        let data = {
+            username: username,
+            password: password
+        }
+        if( username.length !== 0 && password.length !== 0 ){
+            $('#submit_login').addClass('disabled').attr('disabled', 'disabled');
             $.ajax({
                 url:'/api/auth/login',
                 type:'post',
-                data:{username:username,password:password},
+                contentType: 'application/json',
+                dataType: 'json',
+                data: JSON.stringify(data),
                 success:function(response){
-                    if(response == 1){
+                    $('#submit_login').removeClass('disabled').removeAttr('disabled');
+                    console.log(response)
+                    if(response === 1){
                         window.location = "/lk";
                     }else{
 						alert("Invalid username and password!");
                     }
+                },
+                error: function (err) {
+                    $('#submit_login').removeClass('disabled').removeAttr('disabled');
+                    console.log(err)
                 }
             });
         }
