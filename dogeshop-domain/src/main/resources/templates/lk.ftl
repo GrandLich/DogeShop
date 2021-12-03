@@ -1,4 +1,4 @@
-<#assign title = "Личный кабинет">
+<#assign title = "DogeShop | Cabinet">
 
 <#include "blocks/header.ftl">
 
@@ -9,27 +9,27 @@
         </div>
         <div>
             <span class="fs-5 d-block" style="font-weight: 600;">${username}</span>
-            <span class="fs-5" style="font-weight: 600;">Злой покупатель</span>
+            <span class="fs-5" style="font-weight: 600;"><@spring.message code='lk.status'/></span>
         </div>
         <div class="mt-4">
-            <span style="font-weight: 600;">Баланс: ${balance} рублей</span>
+            <span style="font-weight: 600;"><@spring.message code='lk.balance'/> ${balance} <@spring.message code='lk.currency'/></span>
         </div>
         <div class="mt-4 col-md-6 offset-md-3 d-flex flex-column">
-            <a class="btn btn-light border" href="/payment">Пополнить баланс</a>
-            <a class="btn btn-light border mt-2" href="#" id="logout_btn">Выйти</a>
+            <a class="btn btn-light border" href="/payment"><@spring.message code='lk.addpayment'/></a>
+            <a class="btn btn-light border mt-2" href="#" id="logout_btn"><@spring.message code='lk.quit'/></a>
         </div>
     </div>
 
     <div class="col-md-8">
         <div class="text-center col-12">
-            <h2>История покупок</h2>
+            <h2><@spring.message code='lk.history.title'/></h2>
         </div>
         <table class="table">
             <thead>
                 <tr>
-                    <th>Чо купил</th>
-                    <th>Дата</th>
-                    <th>Цена</th>
+                    <th><@spring.message code='lk.history.skin'/></th>
+                    <th><@spring.message code='lk.history.date'/></th>
+                    <th><@spring.message code='lk.history.price'/></th>
                 </tr>
             </thead>
             <tbody>

@@ -31,8 +31,8 @@
 				<a href="/lk">
             <#else>
                 <div class="d-flex flex-column me-3">
-                    <a href="/login"><button class="btn btn-light border mb-1">SignIn</button></a>
-                    <a href="/reg"><button class="btn btn-light border">SignUp</button></a>
+                    <a href="/login"><button class="btn btn-light border mb-1"><@spring.message code='button.signin'/></button></a>
+                    <a href="/reg"><button class="btn btn-light border"><@spring.message code='button.register'/></button></a>
                 </div>
         </#if>
             <img height="100px" src="<@spring.url '/img/profile.png'/>" alt="">

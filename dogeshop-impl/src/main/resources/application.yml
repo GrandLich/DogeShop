@@ -9,5 +9,7 @@ spring:
     url: jdbc:postgresql://localhost:5432/dogeshop
   liquibase:
     change-log: classpath:/db/changelog/db.changelog-master.xml
+  messages:
+    basename: languages.messages
 server:
   port: 8080

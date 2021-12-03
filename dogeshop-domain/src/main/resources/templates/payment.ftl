@@ -1,4 +1,4 @@
-<#assign title = "Аутентификация">
+<#assign title = "DogeShop | Payment">
 
 <#include "blocks/header.ftl">
 
@@ -6,14 +6,14 @@
     <div class="col-md-6 offset-md-3">
         <form action="" method="post" id="paymentForm">
             <div id="success" class="alert alert-success text-center d-none">
-                Баланс успешно пополнен
+                <@spring.message code='payment.success'/>
             </div>
             <div class="mb-3">
-                <label for="balance" class="col-form-label">Количество: <span class="text-danger">*</span></label>
+                <label for="balance" class="col-form-label"><@spring.message code='payment.amount'/> <span class="text-danger">*</span></label>
                 <input type="text" class="form-control" id="balance" name="balance" required>
             </div>
             <div class="col-12 text-center">
-                <button class="btn btn-light border rounded" type="submit" id="submit_btn">Пополнить баланс</button>
+                <button class="btn btn-light border rounded" type="submit" id="submit_btn"><@spring.message code='payment.button'/></button>
             </div>
         </form>
     </div>
@@ -45,7 +45,7 @@ $(document).ready(function(){
                 },
                 error: function (err) {
                     $('#submit_btn').removeClass('disabled').removeAttr('disabled');
-                    $('#success').removeClass('d-none').text('Баланс успешно пополнен');
+                    $('#success').removeClass('d-none');
                     console.log(err)
                 }
             });

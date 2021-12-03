@@ -1,4 +1,4 @@
-<#assign title = "Регистрация">
+<#assign title = "DogeShop | Sign up">
 
 <#include "blocks/header.ftl">
 
@@ -6,18 +6,18 @@
     <div class="col-md-6 offset-md-3">
         <form id="reg_form">
 			<div id="registerFail" class="alert alert-danger text-center d-none">
-				Покорми собаку
+				<@spring.message code='register.fail'/>
 			</div>
             <div class="mb-3">
-                <label for="username" class="col-form-label">Имя пользователя: <span class="text-danger">*</span></label>
+                <label for="username" class="col-form-label"><@spring.message code='register.username'/><span class="text-danger">*</span></label>
                 <input type="username" class="form-control" id="username" name="username" required>
             </div>
             <div class="mb-3">
-                <label for="password" class="col-form-label">Пароль: <span class="text-danger">*</span></label>
+                <label for="password" class="col-form-label"><@spring.message code='register.password'/><span class="text-danger">*</span></label>
                 <input type="password" class="form-control" id="password" name="password" required>
             </div>
             <div class="col-12 text-center">
-                <button class="btn btn-light border rounded" type="submit" id="submit_btn">Зарегистрироваться</button>
+                <button class="btn btn-light border rounded" type="submit" id="submit_btn"><@spring.message code='register.button'/></button>
             </div>
         </form>
     </div>
@@ -53,7 +53,7 @@ $(document).ready(function(){
                     $('#submit_btn').removeClass('disabled').removeAttr('disabled');
                     console.log(err)
 					if(err.status === 409) {
-						$('#registerFail').removeClass('d-none').text('Аккаунт уже существует');
+						$('#registerFail').removeClass('d-none');
 					}
                 }
             });

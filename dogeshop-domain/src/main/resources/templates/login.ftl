@@ -1,4 +1,4 @@
-<#assign title = "Аутентификация">
+<#assign title = "DogeShop | Sign in">
 
 <#include "blocks/header.ftl">
 
@@ -6,18 +6,18 @@
     <div class="col-md-6 offset-md-3">
         <form action="" method="post" id="login_form">
             <div id="registerFail" class="alert alert-danger text-center d-none">
-        		Неправильный логин или пароль
+        		<@spring.message code='login.fail'/>
         	</div>
             <div class="mb-3">
-                <label for="username" class="col-form-label">Имя пользователя: <span class="text-danger">*</span></label>
+                <label for="username" class="col-form-label"><@spring.message code='login.username'/><span class="text-danger">*</span></label>
                 <input type="text" class="form-control" id="username" name="username" required>
             </div>
             <div class="mb-3">
-                <label for="password" class="col-form-label">Пароль: <span class="text-danger">*</span></label>
+                <label for="password" class="col-form-label"><@spring.message code='login.password'/><span class="text-danger">*</span></label>
                 <input type="password" class="form-control" id="password" name="password" required>
             </div>
             <div class="col-12 text-center">
-                <button class="btn btn-light border rounded" type="submit" id="submit_login">Войти</button>
+                <button class="btn btn-light border rounded" type="submit" id="submit_login"><@spring.message code='login.button'/></button>
             </div>
         </form>
     </div>
@@ -51,12 +51,12 @@ $(document).ready(function(){
 					if(response.accountName != null) {
                         window.location = "/lk";
                     }else {
-						$('#registerFail').removeClass('d-none').text('Неправильный логин или пароль');
+						$('#registerFail').removeClass('d-none');
                     }
                 },
                 error: function (err) {
                     $('#submit_login').removeClass('disabled').removeAttr('disabled');
-                    $('#registerFail').removeClass('d-none').text('Произошла ошибка. Обратитесь к девепоперу');
+                    $('#registerFail').removeClass('d-none');
                 }
             });
         }
