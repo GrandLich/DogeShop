@@ -1,13 +1,18 @@
 package dev.mrlich.dogeshop.controller;
 
+import dev.mrlich.dogeshop.api.model.Skin;
 import dev.mrlich.dogeshop.auth.UserAuthentication;
+import dev.mrlich.dogeshop.service.SkinService;
 import lombok.RequiredArgsConstructor;
+import ma.glasnost.orika.MapperFacade;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -15,10 +20,12 @@ import java.util.Map;
 public class MainPageController {
 
     private final UserAuthentication authentication;
+    private final SkinService skinService;
+    private final MapperFacade mapperFacade;
 
     @GetMapping("/")
     public ModelAndView mainPage(Model model) {
-        return new ModelAndView("main", getAuthenticationModels());
+        return new ModelAndView("main", mergeMaps(getAuthenticationModels(), getMainPageSkins()));
     }
 
     @GetMapping("/cart")
@@ -69,6 +76,22 @@ public class MainPageController {
             models.put("username", authentication.getCurrentAccount().getName());
         }
         return models;
+    }
+
+    private Map<String,Object> getMainPageSkins() {
+        Map<String, Object> models = new HashMap<>();
+        List<Skin> skins = mapperFacade.mapAsList(skinService.getAll(), Skin.class);
+        models.put("skins", skins);
+        return models;
+    }
+
+    @SafeVarargs
+    private <K,V> Map<K,V> mergeMaps(Map<K,V>... maps) {
+        Map<K,V> resultMap = new HashMap<>();
+        for (Map<K, V> map : maps) {
+            resultMap.putAll(map);
+        }
+        return resultMap;
     }
 
 }

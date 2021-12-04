@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -48,6 +50,13 @@ public class SkinServiceImpl implements SkinService {
     @Override
     public void updateSkin(SkinEntity skin) {
         skinRepository.save(skin);
+    }
+
+    @Override
+    public List<SkinEntity> getAll() {
+        List<SkinEntity> skins = new ArrayList<>();
+        skinRepository.findAll().forEach(skins::add);
+        return skins;
     }
 
 }
