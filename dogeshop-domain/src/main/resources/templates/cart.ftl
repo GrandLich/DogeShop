@@ -21,15 +21,30 @@
                     <th><@spring.message code='cart.skin'/></th>
                     <th><@spring.message code='cart.price'/></th>
                 </tr>
+                <tr>
+                    <th>
+                        <select class="form-control" name="cur" id="cur">
+                            <option value="RUB" selected>Рубль</option>
+                            <option value="UAH">Хрыфни</option>
+                            <option value="USD">Доллары</option>
+                            <option value="EUR">Евро</option>
+                            <option value="JPY">Анимешные монетки</option>
+                        </select>
+                    </th>
+                </tr>
             </thead>
             <tbody>
-                <tr>
+                <tr class="product">
                     <td>Педигри</td>
-                    <td>40 хрывень</td>
+                    <td><span class="product_price" data-price="40">40</span> <span class="product_cur">руб.</span></td>
+                </tr>
+                <tr class="product">
+                    <td>Педигри2</td>
+                    <td><span class="product_price" data-price="40">40</span> <span class="product_cur">руб.</span></td>
                 </tr>
                 <tr class="border-top">
                     <td class="text-end pt-5 fw-bold"><@spring.message code='cart.total'/></td>
-                    <td class="pt-5">40 хрывень</td>
+                    <td class="pt-5"><span class="total_price" data-price="80">80</span> <span class="total_cur">руб.</span></td>
                 </tr>
             </tbody>
         </table>
@@ -40,6 +55,41 @@
     </div>
 </div>
 
+<script>
+    $('#cur').on("change", function () {
+        let cur = $(this).val();
+        $.ajax({
+            url:'https://www.cbr-xml-daily.ru/latest.js',
+            type:'get',
+            success:function(response){
+                let currencies;
+                let c_n = {
+                    'UAH': 'Хрывень',
+                    'EUR': 'Евро',
+                    'JPY': 'Анимешных монеток',
+                    'USD': 'Долларов',
+                    'RUB': 'Рублей'
+                }
+                currencies = JSON.parse(response).rates;
+                let rate = 1;
+                if (cur !== "RUB") { rate = currencies[cur]; }
+                $('.product').each(function () {
+                    let p_price = $(this).find('.product_price');
+                    p_price.text(Math.floor((p_price.attr('data-price') * rate) * 100) / 100);
+                    $(this).find('.product_cur').text(c_n[cur])
+                });
+                let t_price = $('.total_price');
+                t_price.text(Math.floor((t_price.attr('data-price') * rate) * 100) / 100);
+                $('.total_cur').text(c_n[cur]);
+
+            },
+            error: function (err) {
+                alert('Произошла ошибка :(');
+            }
+        });
+
+    });
+</script>
 
 <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
