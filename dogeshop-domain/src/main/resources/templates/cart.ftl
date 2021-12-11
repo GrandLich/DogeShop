@@ -34,28 +34,27 @@
                 </tr>
             </thead>
             <tbody>
+                <#list cartSkins as skin>
                 <tr class="product">
-                    <td>Педигри</td>
-                    <td><span class="product_price" data-price="40">40</span> <span class="product_cur">руб.</span></td>
-                </tr>
-                <tr class="product">
-                    <td>Педигри2</td>
-                    <td><span class="product_price" data-price="40">40</span> <span class="product_cur">руб.</span></td>
-                </tr>
+                                    <td>${skin.name}</td>
+                                    <td><span class="product_price" data-price="${skin.price?string.computer}">${skin.price}</span> <span class="product_cur">руб.</span></td>
+                                </tr>
+                </#list>
                 <tr class="border-top">
-                    <td class="text-end pt-5 fw-bold"><@spring.message code='cart.total'/></td>
-                    <td class="pt-5"><span class="total_price" data-price="80">80</span> <span class="total_cur">руб.</span></td>
-                </tr>
+                                                    <td class="text-end pt-5 fw-bold"><@spring.message code='cart.total'/></td>
+                                                    <td class="pt-5"><span class="total_price" data-price="80">80</span> <span class="total_cur">руб.</span></td>
+                                                </tr>
             </tbody>
         </table>
     </div>
     <div class="d-flex flex-row justify-content-around mt-3">
-        <button data-bs-toggle="modal" data-bs-target="#successModal" class="btn btn-light rounded border"><@spring.message code='cart.buy'/></button>
+        <button id="btn_buy" data-bs-toggle="modal" data-bs-target="#successModal" class="btn btn-light rounded border"><@spring.message code='cart.buy'/></button>
         <button class="btn btn-light rounded border"><@spring.message code='cart.clear'/></button>
     </div>
 </div>
 
 <script>
+    $(document).ready(function(){
     $('#cur').on("change", function () {
         let cur = $(this).val();
         $.ajax({
@@ -75,11 +74,12 @@
                 if (cur !== "RUB") { rate = currencies[cur]; }
                 $('.product').each(function () {
                     let p_price = $(this).find('.product_price');
-                    p_price.text(Math.floor((p_price.attr('data-price') * rate) * 100) / 100);
+					
+                    p_price.text(Math.floor((Number(p_price.attr('data-price')) * rate) * 100) / 100);
                     $(this).find('.product_cur').text(c_n[cur])
                 });
                 let t_price = $('.total_price');
-                t_price.text(Math.floor((t_price.attr('data-price') * rate) * 100) / 100);
+                t_price.text(Math.floor((Number(t_price.attr('data-price')) * rate) * 100) / 100);
                 $('.total_cur').text(c_n[cur]);
 
             },
@@ -89,6 +89,40 @@
         });
 
     });
+
+        $("#btn_clear").on('click', function(e){
+    		e.preventDefault();
+                $.ajax({
+                    url:'/api/cart/clear',
+                    type:'post',
+                    success:function(response) {
+    					window.location.reload();
+    					console.log(response)
+                    },
+                    error: function (err) {
+                        console.log(err)
+                    }
+                });
+        });
+
+        $("#btn_buy").on('click', function(e){
+            		e.preventDefault();
+                        $.ajax({
+                            url:'/api/cart/buy',
+                            type:'post',
+                            success:function(response) {
+            					console.log(response)
+                            },
+                            error: function (err) {
+                                console.log(err)
+                            }
+                        });
+                });
+        $("#modal_close").on('click', function(e) {
+            e.preventDefault();
+            window.location.reload();
+        });
+    });
 </script>
 
 <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
@@ -96,7 +130,7 @@
         <div class="modal-content" style="background-color: #59E12F;">
             <div class="modal-header">
                 <h5 class="modal-title" id="successModalLabel"><@spring.message code='cart.notification.title'/></h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="modal_close"></button>
             </div>
             <div class="modal-body text-center">
                 <h2><@spring.message code='cart.notification.success.text'/></h2>

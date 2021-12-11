@@ -2,6 +2,7 @@ package dev.mrlich.dogeshop.service.impl;
 
 import dev.mrlich.dogeshop.api.exception.AccountAlreadyExistsException;
 import dev.mrlich.dogeshop.entity.AccountEntity;
+import dev.mrlich.dogeshop.entity.OrderEntity;
 import dev.mrlich.dogeshop.entity.SkinEntity;
 import dev.mrlich.dogeshop.repository.AccountRepository;
 import dev.mrlich.dogeshop.service.AccountService;
@@ -77,6 +78,16 @@ public class AccountServiceImpl implements AccountService {
                 .setHint("javax.persistence.fetchgraph", graph);
         AccountEntity entity = q.getSingleResult();
         entity.getCartItems().add(skin);
+        accountRepository.save(account);
+    }
+
+    @Override
+    public void addOrderToAccount(AccountEntity account, OrderEntity order) {
+        EntityGraph<?> graph = em.createEntityGraph("AccountEntity.orders");
+        TypedQuery<AccountEntity> q = em.createQuery("SELECT a FROM AccountEntity a where a.id = " + account.getId(), AccountEntity.class)
+                .setHint("javax.persistence.fetchgraph", graph);
+        AccountEntity entity = q.getSingleResult();
+        entity.getOrders().add(order);
         accountRepository.save(account);
     }
 

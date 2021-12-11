@@ -12,7 +12,11 @@
                 </div>
                     <div class="w-100">
                         <#if authed>
-                            <button type="button" class="buybtn w-100 btn btn-light border border-2" data-id="${skin.id}"><@spring.message code='skin.addtocart'/></button>
+                            <#if cartSkins?seq_contains(skin)>
+								    <button type="button" class="buybtn w-100 btn btn-success border border-2" data-id="${skin.id}" disabled="disabled">✔</button>
+								<#else>
+								    <button type="button" class="buybtn w-100 btn btn-light border border-2" data-id="${skin.id}"><@spring.message code='skin.addtocart'/></button>
+							</#if>
                         </#if>
                     </div>
             </div>
@@ -24,26 +28,18 @@
 <script>
 	$(document).ready(function(){
     $(".buybtn").on('click', function(e){
-            $(this).addClass('disabled').attr('disabled', 'disabled');
+			let btn = $(this);
+            btn.addClass('disabled').attr('disabled', 'disabled');
 			let id = $(this).attr('data-id');
             $.ajax({
-                url:'/api/auth/login',
+                url:'/api/cart/add?skinId='+id,
                 type:'post',
-                contentType: 'application/json',
-                dataType: 'json',
-                data: JSON.stringify(data),
                 success:function(response){
-                    $('#submit_login').removeClass('disabled').removeAttr('disabled');
+                    btn.addClass('btn-success').removeClass('btn-light').text('✔');
                     console.log(response)
-					if(response.accountName != null) {
-                        window.location = "/lk";
-                    }else {
-						$('#registerFail').removeClass('d-none');
-                    }
                 },
                 error: function (err) {
-                    $('#submit_login').removeClass('disabled').removeAttr('disabled');
-                    $('#registerFail').removeClass('d-none');
+                    btn.removeClass('disabled').removeAttr('disabled');
                 }
             });
     });

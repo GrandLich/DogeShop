@@ -33,11 +33,13 @@
                 </tr>
             </thead>
             <tbody>
+                <#list orders as order>
                 <tr>
-                    <td>Педигри</td>
-                    <td>3.11.2021</td>
-                    <td>40 хрыфень</td>
+                    <td>${order.skinName}</td>
+                    <td>${order.date?datetime.xs}</td>
+                    <td>${order.price} RUB</td>
                 </tr>
+                </#list>
             </tbody>
         </table>
     </div>

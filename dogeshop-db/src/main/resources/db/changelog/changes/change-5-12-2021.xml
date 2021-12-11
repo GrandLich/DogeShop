@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+    <changeSet id="N1-5-12-2021" author="MrLich">
+        <createTable tableName="orderhistory">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="skinName" type="varchar(64)"/>
+            <column name="date" type="timestamp"/>
+            <column name="price" type="decimal"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="N2-5-12-2021" author="MrLich">
+        <createSequence  dataType="bigint"
+                         incrementBy="1"
+                         minValue="1"
+                         schemaName="public"
+                         sequenceName="orderhistory_pk_seq"
+                         startValue="1"/>
+    </changeSet>
+
+    <changeSet id="N3-5-12-2021" author="MrLich">
+        <addColumn tableName="orderhistory">
+            <column name="account_id" type="bigint"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="N4-5-12-2021" author="MrLich">
+        <addForeignKeyConstraint baseTableName="orderhistory" baseColumnNames="account_id" constraintName="account_order_fk" referencedTableName="account"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="N6-30-10-2021" author="MrLich">
+        <renameColumn tableName="orderhistory" oldColumnName="skinName" newColumnName="skin_name"/>
+    </changeSet>
+
+
+</databaseChangeLog>

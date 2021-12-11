@@ -1,8 +1,12 @@
 package dev.mrlich.dogeshop.controller;
 
+import dev.mrlich.dogeshop.api.model.Order;
 import dev.mrlich.dogeshop.api.model.Skin;
 import dev.mrlich.dogeshop.auth.UserAuthentication;
+import dev.mrlich.dogeshop.service.AccountService;
+import dev.mrlich.dogeshop.service.OrderService;
 import dev.mrlich.dogeshop.service.SkinService;
+import dev.mrlich.dogeshop.util.MapUtil;
 import lombok.RequiredArgsConstructor;
 import ma.glasnost.orika.MapperFacade;
 import org.springframework.stereotype.Controller;
@@ -21,11 +25,13 @@ public class MainPageController {
 
     private final UserAuthentication authentication;
     private final SkinService skinService;
+    private final AccountService accountService;
+    private final OrderService orderService;
     private final MapperFacade mapperFacade;
 
     @GetMapping("/")
     public ModelAndView mainPage(Model model) {
-        return new ModelAndView("main", mergeMaps(getAuthenticationModels(), getMainPageSkins()));
+        return new ModelAndView("main", MapUtil.mergeMaps(getAuthenticationModels(), getMainPageSkins(), getCartSkins()));
     }
 
     @GetMapping("/cart")
@@ -33,7 +39,7 @@ public class MainPageController {
         if (!authentication.isLoggedIn()) {
             return new ModelAndView("redirect:/login");
         }
-        return new ModelAndView("cart", getAuthenticationModels());
+        return new ModelAndView("cart", MapUtil.mergeMaps(getAuthenticationModels(), getCartSkins()));
     }
 
     @GetMapping("/lk")
@@ -41,7 +47,7 @@ public class MainPageController {
         if (!authentication.isLoggedIn()) {
             return new ModelAndView("redirect:/login");
         }
-        return new ModelAndView("lk", getAuthenticationModels());
+        return new ModelAndView("lk", MapUtil.mergeMaps(getAuthenticationModels(), getOrderHistory()));
     }
 
     @GetMapping("/login")
@@ -62,7 +68,7 @@ public class MainPageController {
 
     @GetMapping("/payment")
     public ModelAndView payment(Model model) {
-        if(!authentication.isLoggedIn()) {
+        if (!authentication.isLoggedIn()) {
             return new ModelAndView("redirect:/login");
         }
         return new ModelAndView("payment", getAuthenticationModels());
@@ -78,20 +84,31 @@ public class MainPageController {
         return models;
     }
 
-    private Map<String,Object> getMainPageSkins() {
+    private Map<String, Object> getMainPageSkins() {
         Map<String, Object> models = new HashMap<>();
         List<Skin> skins = mapperFacade.mapAsList(skinService.getAll(), Skin.class);
         models.put("skins", skins);
         return models;
     }
 
-    @SafeVarargs
-    private <K,V> Map<K,V> mergeMaps(Map<K,V>... maps) {
-        Map<K,V> resultMap = new HashMap<>();
-        for (Map<K, V> map : maps) {
-            resultMap.putAll(map);
+    private Map<String, Object> getCartSkins() {
+        Map<String, Object> models = new HashMap<>();
+        if (!authentication.isLoggedIn()) {
+            return models;
         }
-        return resultMap;
+        models.put("cartSkins", mapperFacade.mapAsList(accountService.getSkinsInCart(authentication.getCurrentAccount()), Skin.class));
+        return models;
     }
+
+    private Map<String, Object> getOrderHistory() {
+        Map<String, Object> models = new HashMap<>();
+        if (!authentication.isLoggedIn()) {
+            return models;
+        }
+        models.put("orders", mapperFacade.mapAsList(orderService.getOrders(authentication.getCurrentAccount()), Order.class));
+        return models;
+    }
+
+
 
 }

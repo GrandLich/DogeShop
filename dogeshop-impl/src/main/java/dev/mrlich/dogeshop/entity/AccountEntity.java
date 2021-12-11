@@ -4,14 +4,20 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Data
 @Entity
 @Table(name = "account")
-@NamedEntityGraph(name = "AccountEntity.cartItems",
-        attributeNodes = @NamedAttributeNode("cartItems"))
+@NamedEntityGraphs({
+        @NamedEntityGraph(name = "AccountEntity.cartItems",
+                attributeNodes = @NamedAttributeNode("cartItems")),
+        @NamedEntityGraph(name = "AccountEntity.orders",
+                attributeNodes = @NamedAttributeNode("orders"))
+})
 public class AccountEntity {
 
     @Id
@@ -27,6 +33,9 @@ public class AccountEntity {
             joinColumns = @JoinColumn(name = "accountId"),
             inverseJoinColumns = @JoinColumn(name = "skinId"))
     private Set<SkinEntity> cartItems = new HashSet<>();
+
+    @OneToMany(mappedBy = "account")
+    private List<OrderEntity> orders = new ArrayList<>();
 
     @Override
     public String toString() {

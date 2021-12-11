@@ -4,8 +4,10 @@ import dev.mrlich.dogeshop.api.CartApi;
 import dev.mrlich.dogeshop.api.model.Skin;
 import dev.mrlich.dogeshop.api.model.response.MessageResponse;
 import dev.mrlich.dogeshop.auth.UserAuthentication;
+import dev.mrlich.dogeshop.entity.OrderEntity;
 import dev.mrlich.dogeshop.entity.SkinEntity;
 import dev.mrlich.dogeshop.service.AccountService;
+import dev.mrlich.dogeshop.service.OrderService;
 import dev.mrlich.dogeshop.service.SkinService;
 import lombok.RequiredArgsConstructor;
 import ma.glasnost.orika.MapperFacade;
@@ -27,6 +29,7 @@ public class CartApiImpl implements CartApi {
     private final UserAuthentication authentication;
     private final AccountService accountService;
     private final SkinService skinService;
+    private final OrderService orderService;
     private final MapperFacade mapper;
 
     @Override
@@ -61,6 +64,22 @@ public class CartApiImpl implements CartApi {
         return ResponseEntity.ok(new MessageResponse().message("Корзина очищена"));
     }
 
+    @Override
+    public ResponseEntity<MessageResponse> buy() {
+        if (!authentication.isLoggedIn()) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+        Set<SkinEntity> skins = accountService.getSkinsInCart(authentication.getCurrentAccount());
+        skins.forEach(skin -> {
+            // TODO balance check
+            OrderEntity order = orderService.createOrder(authentication.getCurrentAccount(), skin);
+            accountService.addOrderToAccount(authentication.getCurrentAccount(), order);
+        });
+        accountService.clearCart(authentication.getCurrentAccount());
+        return ResponseEntity.ok().build();
+    }
+
+    // TODO пиздец
     @Transactional
     private List<Skin> mapSkinEntitySetToSkinsDtoList(Set<SkinEntity> skinEntitySet) {
         List<Skin> skins = new ArrayList<>();

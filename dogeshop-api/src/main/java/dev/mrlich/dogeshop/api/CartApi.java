@@ -20,4 +20,7 @@ public interface CartApi {
     @PostMapping("/clear")
     ResponseEntity<MessageResponse> clearCart();
 
+    @PostMapping("/buy")
+    ResponseEntity<MessageResponse> buy();
+
 }

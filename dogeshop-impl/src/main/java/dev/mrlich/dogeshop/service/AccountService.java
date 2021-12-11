@@ -1,6 +1,7 @@
 package dev.mrlich.dogeshop.service;
 
 import dev.mrlich.dogeshop.entity.AccountEntity;
+import dev.mrlich.dogeshop.entity.OrderEntity;
 import dev.mrlich.dogeshop.entity.SkinEntity;
 
 import java.math.BigDecimal;
@@ -24,6 +25,8 @@ public interface AccountService {
     void clearCart(AccountEntity account);
 
     void addSkinToCart(AccountEntity account, SkinEntity skin);
+
+    void addOrderToAccount(AccountEntity account, OrderEntity order);
 
     void setBalance(AccountEntity account, BigDecimal balance);
 
