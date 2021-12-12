@@ -8,6 +8,7 @@ import dev.mrlich.dogeshop.auth.UserAuthentication;
 import dev.mrlich.dogeshop.entity.AccountEntity;
 import dev.mrlich.dogeshop.service.AccountService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,22 +24,23 @@ public class AuthApiImpl implements AuthApi {
     @Override
     public ResponseEntity<LoginResponse> login(LoginRequest loginRequest) {
         if (authentication.isLoggedIn()) {
-            return ResponseEntity.ok(new LoginResponse().message("Уже авторизован"));
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
         Optional<AccountEntity> account = accountService.findByNameAndPassword(loginRequest.getName(), loginRequest.getPassword());
         if (account.isEmpty()) {
-            return ResponseEntity.ok(new LoginResponse().message("Неверный логин или пароль"));
+            return ResponseEntity.badRequest()
+                    .body(new LoginResponse().message("Incorrect username or password"));
         }
         authentication.setCurrentAccount(account.get());
-        return ResponseEntity.ok(new LoginResponse().message("Успешно авторизован").accountName(account.get().getName()));
+        return ResponseEntity.ok(new LoginResponse().accountName(account.get().getName()));
     }
 
     @Override
     public ResponseEntity<LogoutResponse> logout() {
         if (!authentication.isLoggedIn()) {
-            return ResponseEntity.ok(new LogoutResponse().message("Не авторизован"));
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
         authentication.setCurrentAccount(null);
-        return ResponseEntity.ok(new LogoutResponse().message("Успешно вышли"));
+        return ResponseEntity.ok().build();
     }
 }

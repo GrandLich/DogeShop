@@ -3,6 +3,7 @@ package dev.mrlich.dogeshop.controller;
 import dev.mrlich.dogeshop.api.model.Order;
 import dev.mrlich.dogeshop.api.model.Skin;
 import dev.mrlich.dogeshop.auth.UserAuthentication;
+import dev.mrlich.dogeshop.entity.SkinEntity;
 import dev.mrlich.dogeshop.service.AccountService;
 import dev.mrlich.dogeshop.service.OrderService;
 import dev.mrlich.dogeshop.service.SkinService;
@@ -14,6 +15,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -97,6 +100,10 @@ public class MainPageController {
             return models;
         }
         models.put("cartSkins", mapperFacade.mapAsList(accountService.getSkinsInCart(authentication.getCurrentAccount()), Skin.class));
+        BigDecimal cartSkinsTotalPrice = accountService.getSkinsInCart(authentication.getCurrentAccount()).stream()
+                .map(SkinEntity::getPrice)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+        models.put("cartSkinsTotal",cartSkinsTotalPrice);
         return models;
     }
 
@@ -108,7 +115,6 @@ public class MainPageController {
         models.put("orders", mapperFacade.mapAsList(orderService.getOrders(authentication.getCurrentAccount()), Order.class));
         return models;
     }
-
 
 
 }

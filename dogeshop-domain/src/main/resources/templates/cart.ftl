@@ -3,14 +3,6 @@
 <#include "blocks/header.ftl">
 
 <div>
-    <div class="row">
-        <div class="col-md-6 d-flex">
-            <span class="my-auto"><@spring.message code='cart.balance'/> ${balance} <@spring.message code='cart.currency'/></span>
-        </div>
-        <div class="col-md-6 d-flex flex-row-reverse">
-            <a href="/payment" class="btn btn-light border" style="max-width: 200px;" href=""><@spring.message code='cart.deposit'/></a>
-        </div>
-    </div>
     <div class="row mt-4">
         <div class="text-center col-12">
             <h2><@spring.message code='cart.title'/></h2>
@@ -24,16 +16,20 @@
                 <tr>
                     <th>
                         <select class="form-control" name="cur" id="cur">
-                            <option value="RUB" selected>Рубль</option>
-                            <option value="UAH">Хрыфни</option>
-                            <option value="USD">Доллары</option>
-                            <option value="EUR">Евро</option>
-                            <option value="JPY">Анимешные монетки</option>
+                            <option value="RUB" selected>RUB</option>
+                            <option value="UAH">UAH</option>
+                            <option value="USD">USD</option>
+                            <option value="EUR">EUR</option>
+                            <option value="JPY">JPY</option>
                         </select>
                     </th>
+					<th style="float: right">
+						<span class="my-auto"><@spring.message code='cart.balance'/> ${balance} <@spring.message code='cart.currency'/></span>
+						<a href="/payment" class="btn btn-light border" style="max-width: 200px;" href=""><@spring.message code='cart.deposit'/></a>
+					</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="cart_table">
                 <#list cartSkins as skin>
                 <tr class="product">
                                     <td>${skin.name}</td>
@@ -42,14 +38,14 @@
                 </#list>
                 <tr class="border-top">
                                                     <td class="text-end pt-5 fw-bold"><@spring.message code='cart.total'/></td>
-                                                    <td class="pt-5"><span class="total_price" data-price="80">80</span> <span class="total_cur">руб.</span></td>
+                                                    <td class="pt-5"><span class="total_price" data-price="${cartSkinsTotal?string.computer}">${cartSkinsTotal}</span> <span class="total_cur">руб.</span></td>
                                                 </tr>
             </tbody>
         </table>
     </div>
     <div class="d-flex flex-row justify-content-around mt-3">
         <button id="btn_buy" data-bs-toggle="modal" data-bs-target="#successModal" class="btn btn-light rounded border"><@spring.message code='cart.buy'/></button>
-        <button class="btn btn-light rounded border"><@spring.message code='cart.clear'/></button>
+        <button class="btn btn-light rounded border" id="btn_clear"><@spring.message code='cart.clear'/></button>
     </div>
 </div>
 
@@ -63,11 +59,11 @@
             success:function(response){
                 let currencies;
                 let c_n = {
-                    'UAH': 'Хрывень',
-                    'EUR': 'Евро',
-                    'JPY': 'Анимешных монеток',
-                    'USD': 'Долларов',
-                    'RUB': 'Рублей'
+                    'UAH': 'UAH',
+                    'EUR': 'EUR',
+                    'JPY': 'JPY',
+                    'USD': 'USD',
+                    'RUB': 'RUB'
                 }
                 currencies = JSON.parse(response).rates;
                 let rate = 1;
@@ -111,6 +107,13 @@
                             url:'/api/cart/buy',
                             type:'post',
                             success:function(response) {
+								if(response.message == "Not enough money") {
+									$("#buy_modal").css('background-color', '#9c435c');
+									$("#modal_message").text('<@spring.message code='cart.notification.fail.text'/>');
+								} else {
+									$("#buy_modal").css('background-color', '#59E12F');
+									$("#modal_message").text('<@spring.message code='cart.notification.success.text'/>');
+								}
             					console.log(response)
                             },
                             error: function (err) {
@@ -127,13 +130,13 @@
 
 <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content" style="background-color: #59E12F;">
+        <div class="modal-content" id="buy_modal" style="background-color: #59E12F;">
             <div class="modal-header">
                 <h5 class="modal-title" id="successModalLabel"><@spring.message code='cart.notification.title'/></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="modal_close"></button>
             </div>
             <div class="modal-body text-center">
-                <h2><@spring.message code='cart.notification.success.text'/></h2>
+                <h2 id="modal_message"><@spring.message code='cart.notification.success.text'/></h2>
             </div>
         </div>
     </div>

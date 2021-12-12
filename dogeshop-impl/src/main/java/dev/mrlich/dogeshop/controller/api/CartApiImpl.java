@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.transaction.Transactional;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -38,7 +39,7 @@ public class CartApiImpl implements CartApi {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
         Set<SkinEntity> skinsInCart = accountService.getSkinsInCart(authentication.getCurrentAccount());
-        List<Skin> skins = mapSkinEntitySetToSkinsDtoList(skinsInCart);
+        List<Skin> skins = mapper.mapAsList(skinsInCart, Skin.class);
         return ResponseEntity.ok(skins);
     }
 
@@ -49,10 +50,10 @@ public class CartApiImpl implements CartApi {
         }
         Optional<SkinEntity> skin = skinService.getSkin(skinId);
         if(skin.isEmpty()) {
-            return ResponseEntity.ok(new MessageResponse().message("Скина с указанным ID не существует"));
+            return ResponseEntity.badRequest().build();
         }
         accountService.addSkinToCart(authentication.getCurrentAccount(), skin.get());
-        return ResponseEntity.ok(new MessageResponse().message("В корзину добавлен скин с ID "+ skinId));
+        return ResponseEntity.ok().build();
     }
 
     @Override
@@ -61,7 +62,7 @@ public class CartApiImpl implements CartApi {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
         accountService.clearCart(authentication.getCurrentAccount());
-        return ResponseEntity.ok(new MessageResponse().message("Корзина очищена"));
+        return ResponseEntity.ok().build();
     }
 
     @Override
@@ -70,20 +71,18 @@ public class CartApiImpl implements CartApi {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
         Set<SkinEntity> skins = accountService.getSkinsInCart(authentication.getCurrentAccount());
+        BigDecimal totalPrice = skins.stream()
+                .map(SkinEntity::getPrice)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+        if(totalPrice.compareTo(authentication.getCurrentAccount().getBalance()) > 0) {
+            return ResponseEntity.ok(new MessageResponse().message("Not enough money"));
+        }
         skins.forEach(skin -> {
-            // TODO balance check
             OrderEntity order = orderService.createOrder(authentication.getCurrentAccount(), skin);
             accountService.addOrderToAccount(authentication.getCurrentAccount(), order);
         });
+        accountService.setBalance(authentication.getCurrentAccount(), authentication.getCurrentAccount().getBalance().subtract(totalPrice));
         accountService.clearCart(authentication.getCurrentAccount());
         return ResponseEntity.ok().build();
-    }
-
-    // TODO пиздец
-    @Transactional
-    private List<Skin> mapSkinEntitySetToSkinsDtoList(Set<SkinEntity> skinEntitySet) {
-        List<Skin> skins = new ArrayList<>();
-        skinEntitySet.forEach(skinEntity -> skins.add(mapper.map(skinEntity, Skin.class)));
-        return skins;
     }
 }
