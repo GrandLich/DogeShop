@@ -13,7 +13,7 @@ public class UserAuthentication {
     private Account currentAccount;
 
     public boolean isLoggedIn() {
-        return currentAccount != null;
+        return getCurrentAccount() != null;
     }
 
 }
