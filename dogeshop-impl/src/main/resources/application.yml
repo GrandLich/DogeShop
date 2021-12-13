@@ -11,5 +11,8 @@ spring:
     change-log: classpath:/db/changelog/db.changelog-master.xml
   messages:
     basename: languages.messages
+  jpa:
+    hibernate:
+      ddl-auto: validate
 server:
   port: 8080
