@@ -10,7 +10,7 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th><@spring.message code='cart.skin'/></th>
+                    <th><@spring.message code='cart.skinDto'/></th>
                     <th><@spring.message code='cart.price'/></th>
                 </tr>
                 <tr>
@@ -30,10 +30,10 @@
                 </tr>
             </thead>
             <tbody id="cart_table">
-                <#list cartSkins as skin>
+                <#list cartSkins as skinDto>
                 <tr class="product">
-                                    <td>${skin.name}</td>
-                                    <td><span class="product_price" data-price="${skin.price?string.computer}">${skin.price}</span> <span class="product_cur">руб.</span></td>
+                                    <td>${skinDto.name}</td>
+                                    <td><span class="product_price" data-price="${skinDto.price?string.computer}">${skinDto.price}</span> <span class="product_cur">руб.</span></td>
                                 </tr>
                 </#list>
                 <tr class="border-top">

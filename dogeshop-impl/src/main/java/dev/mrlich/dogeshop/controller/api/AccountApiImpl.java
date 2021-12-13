@@ -1,14 +1,14 @@
 package dev.mrlich.dogeshop.controller.api;
 
 import dev.mrlich.dogeshop.api.AccountApi;
+import dev.mrlich.dogeshop.api.dto.AccountDto;
 import dev.mrlich.dogeshop.api.exception.AccountAlreadyExistsException;
-import dev.mrlich.dogeshop.api.dto.Account;
-import dev.mrlich.dogeshop.api.dto.Order;
+import dev.mrlich.dogeshop.api.dto.OrderDto;
 import dev.mrlich.dogeshop.api.dto.request.CreateAccountRequest;
 import dev.mrlich.dogeshop.api.dto.request.DepositAccountRequest;
 import dev.mrlich.dogeshop.auth.UserAuthentication;
-import dev.mrlich.dogeshop.entity.AccountEntity;
-import dev.mrlich.dogeshop.entity.OrderEntity;
+import dev.mrlich.dogeshop.entity.Account;
+import dev.mrlich.dogeshop.entity.Order;
 import dev.mrlich.dogeshop.service.AccountService;
 import dev.mrlich.dogeshop.service.OrderService;
 import lombok.RequiredArgsConstructor;
@@ -32,19 +32,19 @@ public class AccountApiImpl implements AccountApi {
     private final UserAuthentication authentication;
 
     @Override
-    public ResponseEntity<Account> getAccount(Long accountId) {
-        Optional<AccountEntity> accountEntity = accountService.getAccount(accountId);
+    public ResponseEntity<AccountDto> getAccount(Long accountId) {
+        Optional<Account> accountEntity = accountService.getAccount(accountId);
         if(accountEntity.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        Account account = mapper.map(accountEntity.get(), Account.class);
-        return ResponseEntity.ok(account);
+        AccountDto accountDto = mapper.map(accountEntity.get(), AccountDto.class);
+        return ResponseEntity.ok(accountDto);
     }
 
     @Override
-    public ResponseEntity<Account> createAccount(CreateAccountRequest request) {
-        AccountEntity account = accountService.createAccount(request.getName(), request.getPassword());
-        return ResponseEntity.status(201).body(mapper.map(account, Account.class));
+    public ResponseEntity<AccountDto> createAccount(CreateAccountRequest request) {
+        Account account = accountService.createAccount(request.getName(), request.getPassword());
+        return ResponseEntity.status(201).body(mapper.map(account, AccountDto.class));
     }
 
     @Override
@@ -58,17 +58,17 @@ public class AccountApiImpl implements AccountApi {
     }
 
     @Override
-    public ResponseEntity<List<Order>> getAccountOrders(Long accountId) {
-        Optional<AccountEntity> accountEntity = accountService.getAccount(accountId);
+    public ResponseEntity<List<OrderDto>> getAccountOrders(Long accountId) {
+        Optional<Account> accountEntity = accountService.getAccount(accountId);
         if(accountEntity.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        List<OrderEntity> orders = orderService.getOrders(accountEntity.get());
-        return ResponseEntity.ok(mapper.mapAsList(orders, Order.class));
+        List<Order> orders = orderService.getOrders(accountEntity.get());
+        return ResponseEntity.ok(mapper.mapAsList(orders, OrderDto.class));
     }
 
     @ExceptionHandler(AccountAlreadyExistsException.class)
-    public ResponseEntity<Account> handleAccountAlreadyExistsException() {
+    public ResponseEntity<AccountDto> handleAccountAlreadyExistsException() {
         return ResponseEntity.status(HttpStatus.CONFLICT).build();
     }
 }

@@ -21,7 +21,7 @@
 	<artifactId>dogeshop</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>dogeshop</name>
-	<description>Minecraft skin shop</description>
+	<description>Minecraft skinDto shop</description>
 
 	<properties>
 		<java.version>11</java.version>

@@ -18,7 +18,7 @@ import java.util.Set;
         @NamedEntityGraph(name = "AccountEntity.orders",
                 attributeNodes = @NamedAttributeNode("orders"))
 })
-public class AccountEntity {
+public class Account {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "account_seq")
@@ -32,10 +32,10 @@ public class AccountEntity {
     @JoinTable(name = "account_skin_cart",
             joinColumns = @JoinColumn(name = "accountId"),
             inverseJoinColumns = @JoinColumn(name = "skinId"))
-    private Set<SkinEntity> cartItems = new HashSet<>();
+    private Set<Skin> cartItems = new HashSet<>();
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
-    private List<OrderEntity> orders = new ArrayList<>();
+    private List<Order> orders = new ArrayList<>();
 
     @Override
     public String toString() {

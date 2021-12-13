@@ -1,10 +1,10 @@
 package dev.mrlich.dogeshop.repository;
 
-import dev.mrlich.dogeshop.entity.OrderEntity;
+import dev.mrlich.dogeshop.entity.Order;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface OrderRepository extends CrudRepository<OrderEntity, Long> {
+public interface OrderRepository extends CrudRepository<Order, Long> {
 
 }

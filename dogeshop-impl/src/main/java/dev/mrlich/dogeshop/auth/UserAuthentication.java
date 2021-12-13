@@ -1,6 +1,6 @@
 package dev.mrlich.dogeshop.auth;
 
-import dev.mrlich.dogeshop.entity.AccountEntity;
+import dev.mrlich.dogeshop.entity.Account;
 import lombok.Data;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.SessionScope;
@@ -10,7 +10,7 @@ import org.springframework.web.context.annotation.SessionScope;
 @Data
 public class UserAuthentication {
 
-    private AccountEntity currentAccount;
+    private Account currentAccount;
 
     public boolean isLoggedIn() {
         return currentAccount != null;

@@ -9,7 +9,7 @@ import java.time.Instant;
 @Data
 @Entity
 @Table(name = "orderhistory")
-public class OrderEntity {
+public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "orderhistory_seq")
@@ -20,6 +20,6 @@ public class OrderEntity {
     private BigDecimal price;
     @ManyToOne
     @JoinColumn(name = "account_id", nullable = false)
-    private AccountEntity account;
+    private Account account;
 
 }

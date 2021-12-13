@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 @Data
 @Entity
 @Table(name = "skin")
-public class SkinEntity {
+public class Skin {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "skin_seq")

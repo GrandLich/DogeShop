@@ -1,23 +1,23 @@
 package dev.mrlich.dogeshop.service;
 
-import dev.mrlich.dogeshop.api.dto.Skin;
-import dev.mrlich.dogeshop.entity.SkinEntity;
+import dev.mrlich.dogeshop.api.dto.SkinDto;
+import dev.mrlich.dogeshop.entity.Skin;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface SkinService {
 
-    Optional<SkinEntity> getSkin(Long id);
+    Optional<Skin> getSkin(Long id);
 
-    Optional<SkinEntity> getSkin(String name);
+    Optional<Skin> getSkin(String name);
 
-    SkinEntity createSkin(Skin skinDto);
+    Skin createSkin(SkinDto skinDto);
 
     void deleteSkin(Long id);
 
-    void updateSkin(SkinEntity account);
+    void updateSkin(Skin account);
 
-    List<SkinEntity> getAll();
+    List<Skin> getAll();
 
 }

@@ -1,6 +1,6 @@
 package dev.mrlich.dogeshop.api;
 
-import dev.mrlich.dogeshop.api.dto.Skin;
+import dev.mrlich.dogeshop.api.dto.SkinDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.*;
 public interface SkinApi {
 
     @GetMapping("/{id}")
-    ResponseEntity<Skin> getSkin(@PathVariable("id") Long skinId);
+    ResponseEntity<SkinDto> getSkin(@PathVariable("id") Long skinId);
 
     @PostMapping("/create")
-    ResponseEntity<Skin> createSkin(@RequestBody Skin skin);
+    ResponseEntity<SkinDto> createSkin(@RequestBody SkinDto skinDto);
 
 }

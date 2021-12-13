@@ -1,7 +1,7 @@
 package dev.mrlich.dogeshop.api;
 
-import dev.mrlich.dogeshop.api.dto.Account;
-import dev.mrlich.dogeshop.api.dto.Order;
+import dev.mrlich.dogeshop.api.dto.AccountDto;
+import dev.mrlich.dogeshop.api.dto.OrderDto;
 import dev.mrlich.dogeshop.api.dto.request.CreateAccountRequest;
 import dev.mrlich.dogeshop.api.dto.request.DepositAccountRequest;
 import org.springframework.http.ResponseEntity;
@@ -14,15 +14,15 @@ import java.util.List;
 public interface AccountApi {
 
     @GetMapping("/{id}")
-    ResponseEntity<Account> getAccount(@PathVariable("id") Long accountId);
+    ResponseEntity<AccountDto> getAccount(@PathVariable("id") Long accountId);
 
     @PostMapping("/create")
-    ResponseEntity<Account> createAccount(@RequestBody CreateAccountRequest request);
+    ResponseEntity<AccountDto> createAccount(@RequestBody CreateAccountRequest request);
 
     @PostMapping("/deposit")
     ResponseEntity<Void> depositAccount(@RequestBody DepositAccountRequest request);
 
     @GetMapping("/{id}/orders")
-    ResponseEntity<List<Order>> getAccountOrders(@PathVariable("id") Long accountId);
+    ResponseEntity<List<OrderDto>> getAccountOrders(@PathVariable("id") Long accountId);
 
 }

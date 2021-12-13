@@ -1,8 +1,8 @@
 package dev.mrlich.dogeshop.service;
 
-import dev.mrlich.dogeshop.entity.AccountEntity;
-import dev.mrlich.dogeshop.entity.OrderEntity;
-import dev.mrlich.dogeshop.entity.SkinEntity;
+import dev.mrlich.dogeshop.entity.Account;
+import dev.mrlich.dogeshop.entity.Order;
+import dev.mrlich.dogeshop.entity.Skin;
 
 import java.math.BigDecimal;
 import java.util.Optional;
@@ -10,26 +10,26 @@ import java.util.Set;
 
 public interface AccountService {
 
-    Optional<AccountEntity> getAccount(Long id);
+    Optional<Account> getAccount(Long id);
 
-    Optional<AccountEntity> getAccount(String name);
+    Optional<Account> getAccount(String name);
 
-    Optional<AccountEntity> findByNameAndPassword(String name, String password);
+    Optional<Account> findByNameAndPassword(String name, String password);
 
-    AccountEntity createAccount(String name, String password);
+    Account createAccount(String name, String password);
 
     void deleteAccount(Long id);
 
-    void updateAccount(AccountEntity account);
+    void updateAccount(Account account);
 
-    void clearCart(AccountEntity account);
+    void clearCart(Account account);
 
-    void addSkinToCart(AccountEntity account, SkinEntity skin);
+    void addSkinToCart(Account account, Skin skin);
 
-    void addOrderToAccount(AccountEntity account, OrderEntity order);
+    void addOrderToAccount(Account account, Order order);
 
-    void setBalance(AccountEntity account, BigDecimal balance);
+    void setBalance(Account account, BigDecimal balance);
 
-    Set<SkinEntity> getSkinsInCart(AccountEntity account);
+    Set<Skin> getSkinsInCart(Account account);
 
 }

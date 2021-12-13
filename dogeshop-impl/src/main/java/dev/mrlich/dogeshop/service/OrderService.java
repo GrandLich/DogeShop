@@ -1,22 +1,22 @@
 package dev.mrlich.dogeshop.service;
 
-import dev.mrlich.dogeshop.entity.AccountEntity;
-import dev.mrlich.dogeshop.entity.OrderEntity;
-import dev.mrlich.dogeshop.entity.SkinEntity;
+import dev.mrlich.dogeshop.entity.Account;
+import dev.mrlich.dogeshop.entity.Order;
+import dev.mrlich.dogeshop.entity.Skin;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface OrderService {
 
-    Optional<OrderEntity> getOrder(Long id);
+    Optional<Order> getOrder(Long id);
 
-    List<OrderEntity> getOrders(AccountEntity account);
+    List<Order> getOrders(Account account);
 
-    OrderEntity createOrder(AccountEntity account, SkinEntity skin);
+    Order createOrder(Account account, Skin skin);
 
     void deleteOrder(Long id);
 
-    void updateOrder(OrderEntity orderEntity);
+    void updateOrder(Order order);
 
 }

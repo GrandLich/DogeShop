@@ -3,14 +3,15 @@ package dev.mrlich.dogeshop.api.dto;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 
 @Data
-public class Skin {
+public class OrderDto {
 
     private Long id;
-    private String name;
-    private String pictureUrl;
-    private String description;
+    private String skinName;
+    private Instant date;
     private BigDecimal price;
+    private Long accountId;
 
 }

@@ -1,11 +1,11 @@
 package dev.mrlich.dogeshop.config;
 
-import dev.mrlich.dogeshop.api.dto.Account;
-import dev.mrlich.dogeshop.api.dto.Order;
-import dev.mrlich.dogeshop.api.dto.Skin;
-import dev.mrlich.dogeshop.entity.AccountEntity;
-import dev.mrlich.dogeshop.entity.OrderEntity;
-import dev.mrlich.dogeshop.entity.SkinEntity;
+import dev.mrlich.dogeshop.api.dto.AccountDto;
+import dev.mrlich.dogeshop.api.dto.OrderDto;
+import dev.mrlich.dogeshop.api.dto.SkinDto;
+import dev.mrlich.dogeshop.entity.Account;
+import dev.mrlich.dogeshop.entity.Order;
+import dev.mrlich.dogeshop.entity.Skin;
 import ma.glasnost.orika.MapperFacade;
 import ma.glasnost.orika.MapperFactory;
 import ma.glasnost.orika.impl.DefaultMapperFactory;
@@ -22,11 +22,11 @@ public class MapperConfiguration {
 
     @Bean
     public MapperFacade mapperFacade(MapperFactory factory) {
-        factory.classMap(Account.class, AccountEntity.class)
+        factory.classMap(AccountDto.class, Account.class)
                 .byDefault();
-        factory.classMap(Skin.class, SkinEntity.class)
+        factory.classMap(SkinDto.class, Skin.class)
                 .byDefault();
-        factory.classMap(Order.class, OrderEntity.class)
+        factory.classMap(OrderDto.class, Order.class)
                 .byDefault();
         return factory.getMapperFacade();
     }

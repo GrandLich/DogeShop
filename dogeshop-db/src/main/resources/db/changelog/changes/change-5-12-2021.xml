@@ -31,7 +31,7 @@
     </changeSet>
 
     <changeSet id="N4-5-12-2021" author="MrLich">
-        <addForeignKeyConstraint baseTableName="orderhistory" baseColumnNames="account_id" constraintName="account_order_fk" referencedTableName="account"
+        <addForeignKeyConstraint baseTableName="orderhistory" baseColumnNames="account_id" constraintName="account_order_fk" referencedTableName="accountDto"
                                  referencedColumnNames="id"/>
     </changeSet>
 

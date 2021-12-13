@@ -7,12 +7,12 @@ import java.util.List;
 import java.util.Set;
 
 @Data
-public class Account {
+public class AccountDto {
 
     private Long id;
     private String name;
     private BigDecimal balance;
-    private Set<Skin> cartItems;
-    private List<Order> orderHistory;
+    private Set<SkinDto> cartItems;
+    private List<OrderDto> orderDtoHistory;
 
 }

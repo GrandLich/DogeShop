@@ -39,7 +39,7 @@ $(document).ready(function(){
         if( username.length !== 0 && password.length !== 0 ){
             $('#submit_btn').addClass('disabled').attr('disabled', 'disabled');
             $.ajax({
-                url:'/api/account/create',
+                url:'/api/accountDto/create',
                 type:'post',
                 contentType: 'application/json',
                 dataType: 'json',

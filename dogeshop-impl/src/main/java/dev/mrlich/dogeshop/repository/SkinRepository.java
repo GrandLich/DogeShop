@@ -1,6 +1,6 @@
 package dev.mrlich.dogeshop.repository;
 
-import dev.mrlich.dogeshop.entity.SkinEntity;
+import dev.mrlich.dogeshop.entity.Skin;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
@@ -8,9 +8,9 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface SkinRepository extends CrudRepository<SkinEntity, Long> {
+public interface SkinRepository extends CrudRepository<Skin, Long> {
 
     @Query("select skin from SkinEntity skin where skin.name = ?1")
-    Optional<SkinEntity> findByName(String name);
+    Optional<Skin> findByName(String name);
 
 }

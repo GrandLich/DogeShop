@@ -1,9 +1,9 @@
 package dev.mrlich.dogeshop.controller;
 
-import dev.mrlich.dogeshop.api.dto.Order;
-import dev.mrlich.dogeshop.api.dto.Skin;
+import dev.mrlich.dogeshop.api.dto.OrderDto;
+import dev.mrlich.dogeshop.api.dto.SkinDto;
 import dev.mrlich.dogeshop.auth.UserAuthentication;
-import dev.mrlich.dogeshop.entity.SkinEntity;
+import dev.mrlich.dogeshop.entity.Skin;
 import dev.mrlich.dogeshop.service.AccountService;
 import dev.mrlich.dogeshop.service.OrderService;
 import dev.mrlich.dogeshop.service.SkinService;
@@ -87,8 +87,8 @@ public class MainPageController {
 
     private Map<String, Object> getMainPageSkins() {
         Map<String, Object> models = new HashMap<>();
-        List<Skin> skins = mapperFacade.mapAsList(skinService.getAll(), Skin.class);
-        models.put("skins", skins);
+        List<SkinDto> skinDtos = mapperFacade.mapAsList(skinService.getAll(), SkinDto.class);
+        models.put("skins", skinDtos);
         return models;
     }
 
@@ -97,9 +97,9 @@ public class MainPageController {
         if (!authentication.isLoggedIn()) {
             return models;
         }
-        models.put("cartSkins", mapperFacade.mapAsList(accountService.getSkinsInCart(authentication.getCurrentAccount()), Skin.class));
+        models.put("cartSkins", mapperFacade.mapAsList(accountService.getSkinsInCart(authentication.getCurrentAccount()), SkinDto.class));
         BigDecimal cartSkinsTotalPrice = accountService.getSkinsInCart(authentication.getCurrentAccount()).stream()
-                .map(SkinEntity::getPrice)
+                .map(Skin::getPrice)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
         models.put("cartSkinsTotal",cartSkinsTotalPrice);
         return models;
@@ -110,7 +110,7 @@ public class MainPageController {
         if (!authentication.isLoggedIn()) {
             return models;
         }
-        models.put("orders", mapperFacade.mapAsList(orderService.getOrders(authentication.getCurrentAccount()), Order.class));
+        models.put("orders", mapperFacade.mapAsList(orderService.getOrders(authentication.getCurrentAccount()), OrderDto.class));
         return models;
     }
 

@@ -1,11 +1,11 @@
 package dev.mrlich.dogeshop.controller.api;
 
 import dev.mrlich.dogeshop.api.CartApi;
-import dev.mrlich.dogeshop.api.dto.Skin;
+import dev.mrlich.dogeshop.api.dto.SkinDto;
 import dev.mrlich.dogeshop.api.dto.response.MessageResponse;
 import dev.mrlich.dogeshop.auth.UserAuthentication;
-import dev.mrlich.dogeshop.entity.OrderEntity;
-import dev.mrlich.dogeshop.entity.SkinEntity;
+import dev.mrlich.dogeshop.entity.Order;
+import dev.mrlich.dogeshop.entity.Skin;
 import dev.mrlich.dogeshop.service.AccountService;
 import dev.mrlich.dogeshop.service.OrderService;
 import dev.mrlich.dogeshop.service.SkinService;
@@ -32,13 +32,13 @@ public class CartApiImpl implements CartApi {
     private final MapperFacade mapper;
 
     @Override
-    public ResponseEntity<List<Skin>> getCartContents() {
+    public ResponseEntity<List<SkinDto>> getCartContents() {
         if (!authentication.isLoggedIn()) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
-        Set<SkinEntity> skinsInCart = accountService.getSkinsInCart(authentication.getCurrentAccount());
-        List<Skin> skins = mapper.mapAsList(skinsInCart, Skin.class);
-        return ResponseEntity.ok(skins);
+        Set<Skin> skinsInCart = accountService.getSkinsInCart(authentication.getCurrentAccount());
+        List<SkinDto> skinDtos = mapper.mapAsList(skinsInCart, SkinDto.class);
+        return ResponseEntity.ok(skinDtos);
     }
 
     @Override
@@ -46,7 +46,7 @@ public class CartApiImpl implements CartApi {
         if (!authentication.isLoggedIn()) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
-        Optional<SkinEntity> skin = skinService.getSkin(skinId);
+        Optional<Skin> skin = skinService.getSkin(skinId);
         if(skin.isEmpty()) {
             return ResponseEntity.badRequest().build();
         }
@@ -68,15 +68,15 @@ public class CartApiImpl implements CartApi {
         if (!authentication.isLoggedIn()) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
-        Set<SkinEntity> skins = accountService.getSkinsInCart(authentication.getCurrentAccount());
+        Set<Skin> skins = accountService.getSkinsInCart(authentication.getCurrentAccount());
         BigDecimal totalPrice = skins.stream()
-                .map(SkinEntity::getPrice)
+                .map(Skin::getPrice)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
         if(totalPrice.compareTo(authentication.getCurrentAccount().getBalance()) > 0) {
             return ResponseEntity.ok(new MessageResponse().message("Not enough money"));
         }
         skins.forEach(skin -> {
-            OrderEntity order = orderService.createOrder(authentication.getCurrentAccount(), skin);
+            Order order = orderService.createOrder(authentication.getCurrentAccount(), skin);
             accountService.addOrderToAccount(authentication.getCurrentAccount(), order);
         });
         accountService.setBalance(authentication.getCurrentAccount(), authentication.getCurrentAccount().getBalance().subtract(totalPrice));

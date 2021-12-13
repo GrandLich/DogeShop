@@ -1,8 +1,8 @@
 package dev.mrlich.dogeshop.service.impl;
 
 import dev.mrlich.dogeshop.api.exception.SkinAlreadyExistsException;
-import dev.mrlich.dogeshop.api.dto.Skin;
-import dev.mrlich.dogeshop.entity.SkinEntity;
+import dev.mrlich.dogeshop.api.dto.SkinDto;
+import dev.mrlich.dogeshop.entity.Skin;
 import dev.mrlich.dogeshop.repository.SkinRepository;
 import dev.mrlich.dogeshop.service.SkinService;
 import lombok.RequiredArgsConstructor;
@@ -19,21 +19,21 @@ public class SkinServiceImpl implements SkinService {
     private final SkinRepository skinRepository;
 
     @Override
-    public Optional<SkinEntity> getSkin(Long id) {
+    public Optional<Skin> getSkin(Long id) {
         return skinRepository.findById(id);
     }
 
     @Override
-    public Optional<SkinEntity> getSkin(String name) {
+    public Optional<Skin> getSkin(String name) {
         return skinRepository.findByName(name);
     }
 
     @Override
-    public SkinEntity createSkin(Skin skinDto) {
+    public Skin createSkin(SkinDto skinDto) {
         if (skinRepository.findByName(skinDto.getName()).isPresent()) {
             throw new SkinAlreadyExistsException(skinDto.getName());
         }
-        SkinEntity skin = new SkinEntity();
+        Skin skin = new Skin();
         skin.setName(skinDto.getName());
         skin.setDescription(skinDto.getDescription());
         skin.setPrice(skinDto.getPrice());
@@ -47,13 +47,13 @@ public class SkinServiceImpl implements SkinService {
     }
 
     @Override
-    public void updateSkin(SkinEntity skin) {
+    public void updateSkin(Skin skin) {
         skinRepository.save(skin);
     }
 
     @Override
-    public List<SkinEntity> getAll() {
-        List<SkinEntity> skins = new ArrayList<>();
+    public List<Skin> getAll() {
+        List<Skin> skins = new ArrayList<>();
         skinRepository.findAll().forEach(skins::add);
         return skins;
     }

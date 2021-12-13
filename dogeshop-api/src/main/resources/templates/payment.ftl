@@ -34,7 +34,7 @@ $(document).ready(function(){
         if(balance.length !== 0){
             $('#submit_btn').addClass('disabled').attr('disabled', 'disabled');
             $.ajax({
-                url:'/api/account/deposit',
+                url:'/api/accountDto/deposit',
                 type:'post',
                 contentType: 'application/json',
                 dataType: 'json',

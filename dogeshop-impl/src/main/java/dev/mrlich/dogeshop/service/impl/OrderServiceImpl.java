@@ -1,8 +1,8 @@
 package dev.mrlich.dogeshop.service.impl;
 
-import dev.mrlich.dogeshop.entity.AccountEntity;
-import dev.mrlich.dogeshop.entity.OrderEntity;
-import dev.mrlich.dogeshop.entity.SkinEntity;
+import dev.mrlich.dogeshop.entity.Account;
+import dev.mrlich.dogeshop.entity.Order;
+import dev.mrlich.dogeshop.entity.Skin;
 import dev.mrlich.dogeshop.repository.OrderRepository;
 import dev.mrlich.dogeshop.service.OrderService;
 import lombok.RequiredArgsConstructor;
@@ -23,28 +23,28 @@ public class OrderServiceImpl implements OrderService {
     private final EntityManager em;
 
     @Override
-    public Optional<OrderEntity> getOrder(Long id) {
+    public Optional<Order> getOrder(Long id) {
         return orderRepository.findById(id);
     }
 
     @Override
-    public List<OrderEntity> getOrders(AccountEntity account) {
+    public List<Order> getOrders(Account account) {
         EntityGraph<?> graph = em.createEntityGraph("AccountEntity.orders");
-        TypedQuery<AccountEntity> q = em.createQuery("SELECT a FROM AccountEntity a where a.id = " + account.getId(), AccountEntity.class)
+        TypedQuery<Account> q = em.createQuery("SELECT a FROM AccountEntity a where a.id = " + account.getId(), Account.class)
                 .setHint("javax.persistence.fetchgraph", graph);
-        AccountEntity entity = q.getSingleResult();
+        Account entity = q.getSingleResult();
         return entity.getOrders();
     }
 
     @Override
-    public OrderEntity createOrder(AccountEntity account, SkinEntity skin) {
-        OrderEntity orderEntity = new OrderEntity();
-        orderEntity.setAccount(account);
-        orderEntity.setDate(Instant.now());
-        orderEntity.setSkinName(skin.getName());
-        orderEntity.setPrice(skin.getPrice());
-        orderRepository.save(orderEntity);
-        return orderEntity;
+    public Order createOrder(Account account, Skin skin) {
+        Order order = new Order();
+        order.setAccount(account);
+        order.setDate(Instant.now());
+        order.setSkinName(skin.getName());
+        order.setPrice(skin.getPrice());
+        orderRepository.save(order);
+        return order;
     }
 
     @Override
@@ -53,7 +53,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void updateOrder(OrderEntity orderEntity) {
-        orderRepository.save(orderEntity);
+    public void updateOrder(Order order) {
+        orderRepository.save(order);
     }
 }

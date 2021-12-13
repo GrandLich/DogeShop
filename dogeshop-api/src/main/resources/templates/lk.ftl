@@ -27,7 +27,7 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th><@spring.message code='lk.history.skin'/></th>
+                    <th><@spring.message code='lk.history.skinDto'/></th>
                     <th><@spring.message code='lk.history.date'/></th>
                     <th><@spring.message code='lk.history.price'/></th>
                 </tr>
