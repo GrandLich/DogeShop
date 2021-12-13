@@ -1,14 +1,13 @@
 package dev.mrlich.dogeshop.service.impl;
 
 import dev.mrlich.dogeshop.api.exception.SkinAlreadyExistsException;
-import dev.mrlich.dogeshop.api.model.Skin;
+import dev.mrlich.dogeshop.api.dto.Skin;
 import dev.mrlich.dogeshop.entity.SkinEntity;
 import dev.mrlich.dogeshop.repository.SkinRepository;
 import dev.mrlich.dogeshop.service.SkinService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;

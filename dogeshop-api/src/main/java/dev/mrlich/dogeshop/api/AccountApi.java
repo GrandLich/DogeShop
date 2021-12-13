@@ -1,9 +1,9 @@
 package dev.mrlich.dogeshop.api;
 
-import dev.mrlich.dogeshop.api.model.Account;
-import dev.mrlich.dogeshop.api.model.Order;
-import dev.mrlich.dogeshop.api.model.request.CreateAccountRequest;
-import dev.mrlich.dogeshop.api.model.request.DepositAccountRequest;
+import dev.mrlich.dogeshop.api.dto.Account;
+import dev.mrlich.dogeshop.api.dto.Order;
+import dev.mrlich.dogeshop.api.dto.request.CreateAccountRequest;
+import dev.mrlich.dogeshop.api.dto.request.DepositAccountRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

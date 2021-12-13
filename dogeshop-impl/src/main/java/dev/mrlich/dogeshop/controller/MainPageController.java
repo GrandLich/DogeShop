@@ -1,7 +1,7 @@
 package dev.mrlich.dogeshop.controller;
 
-import dev.mrlich.dogeshop.api.model.Order;
-import dev.mrlich.dogeshop.api.model.Skin;
+import dev.mrlich.dogeshop.api.dto.Order;
+import dev.mrlich.dogeshop.api.dto.Skin;
 import dev.mrlich.dogeshop.auth.UserAuthentication;
 import dev.mrlich.dogeshop.entity.SkinEntity;
 import dev.mrlich.dogeshop.service.AccountService;
@@ -16,8 +16,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

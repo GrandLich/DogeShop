@@ -28,18 +28,18 @@ public class AccountEntity {
     private String password;
     private BigDecimal balance = new BigDecimal(0);
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(name = "account_skin_cart",
             joinColumns = @JoinColumn(name = "accountId"),
             inverseJoinColumns = @JoinColumn(name = "skinId"))
     private Set<SkinEntity> cartItems = new HashSet<>();
 
-    @OneToMany(mappedBy = "account")
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
     private List<OrderEntity> orders = new ArrayList<>();
 
     @Override
     public String toString() {
-        return id+":"+name;
+        return id + ":" + name;
     }
 
 }

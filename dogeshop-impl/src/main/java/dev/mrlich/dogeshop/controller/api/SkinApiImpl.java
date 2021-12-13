@@ -2,7 +2,7 @@ package dev.mrlich.dogeshop.controller.api;
 
 import dev.mrlich.dogeshop.api.SkinApi;
 import dev.mrlich.dogeshop.api.exception.SkinAlreadyExistsException;
-import dev.mrlich.dogeshop.api.model.Skin;
+import dev.mrlich.dogeshop.api.dto.Skin;
 import dev.mrlich.dogeshop.entity.SkinEntity;
 import dev.mrlich.dogeshop.service.SkinService;
 import lombok.AllArgsConstructor;

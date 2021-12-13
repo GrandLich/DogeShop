@@ -1,4 +1,4 @@
-package dev.mrlich.dogeshop.api.model.request;
+package dev.mrlich.dogeshop.api.dto.request;
 
 import lombok.Data;
 

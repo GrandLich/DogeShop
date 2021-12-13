@@ -1,8 +1,8 @@
 package dev.mrlich.dogeshop.config;
 
-import dev.mrlich.dogeshop.api.model.Account;
-import dev.mrlich.dogeshop.api.model.Order;
-import dev.mrlich.dogeshop.api.model.Skin;
+import dev.mrlich.dogeshop.api.dto.Account;
+import dev.mrlich.dogeshop.api.dto.Order;
+import dev.mrlich.dogeshop.api.dto.Skin;
 import dev.mrlich.dogeshop.entity.AccountEntity;
 import dev.mrlich.dogeshop.entity.OrderEntity;
 import dev.mrlich.dogeshop.entity.SkinEntity;

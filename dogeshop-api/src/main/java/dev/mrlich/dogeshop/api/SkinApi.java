@@ -1,6 +1,6 @@
 package dev.mrlich.dogeshop.api;
 
-import dev.mrlich.dogeshop.api.model.Skin;
+import dev.mrlich.dogeshop.api.dto.Skin;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

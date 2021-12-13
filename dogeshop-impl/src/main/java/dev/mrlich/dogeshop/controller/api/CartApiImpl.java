@@ -1,8 +1,8 @@
 package dev.mrlich.dogeshop.controller.api;
 
 import dev.mrlich.dogeshop.api.CartApi;
-import dev.mrlich.dogeshop.api.model.Skin;
-import dev.mrlich.dogeshop.api.model.response.MessageResponse;
+import dev.mrlich.dogeshop.api.dto.Skin;
+import dev.mrlich.dogeshop.api.dto.response.MessageResponse;
 import dev.mrlich.dogeshop.auth.UserAuthentication;
 import dev.mrlich.dogeshop.entity.OrderEntity;
 import dev.mrlich.dogeshop.entity.SkinEntity;
@@ -16,9 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.transaction.Transactional;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;

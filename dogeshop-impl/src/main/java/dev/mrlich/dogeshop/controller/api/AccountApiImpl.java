@@ -2,10 +2,10 @@ package dev.mrlich.dogeshop.controller.api;
 
 import dev.mrlich.dogeshop.api.AccountApi;
 import dev.mrlich.dogeshop.api.exception.AccountAlreadyExistsException;
-import dev.mrlich.dogeshop.api.model.Account;
-import dev.mrlich.dogeshop.api.model.Order;
-import dev.mrlich.dogeshop.api.model.request.CreateAccountRequest;
-import dev.mrlich.dogeshop.api.model.request.DepositAccountRequest;
+import dev.mrlich.dogeshop.api.dto.Account;
+import dev.mrlich.dogeshop.api.dto.Order;
+import dev.mrlich.dogeshop.api.dto.request.CreateAccountRequest;
+import dev.mrlich.dogeshop.api.dto.request.DepositAccountRequest;
 import dev.mrlich.dogeshop.auth.UserAuthentication;
 import dev.mrlich.dogeshop.entity.AccountEntity;
 import dev.mrlich.dogeshop.entity.OrderEntity;

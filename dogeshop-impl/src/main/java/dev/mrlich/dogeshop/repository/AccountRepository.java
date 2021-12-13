@@ -10,10 +10,10 @@ import java.util.Optional;
 @Repository
 public interface AccountRepository extends CrudRepository<AccountEntity, Long> {
 
-    @Query("select account from AccountEntity account where account.name = ?1")
+    @Query("select account from AccountEntity account where account.name = :name")
     Optional<AccountEntity> findByName(String name);
 
-    @Query("select account from AccountEntity account where account.name = ?1 and account.password = ?2")
+    @Query("select account from AccountEntity account where account.name = :name and account.password = :password")
     Optional<AccountEntity> findByNameAndPassword(String name, String password);
 
 }

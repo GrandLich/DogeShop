@@ -1,9 +1,9 @@
 package dev.mrlich.dogeshop.controller.api;
 
 import dev.mrlich.dogeshop.api.AuthApi;
-import dev.mrlich.dogeshop.api.model.request.LoginRequest;
-import dev.mrlich.dogeshop.api.model.response.LoginResponse;
-import dev.mrlich.dogeshop.api.model.response.LogoutResponse;
+import dev.mrlich.dogeshop.api.dto.request.LoginRequest;
+import dev.mrlich.dogeshop.api.dto.response.LoginResponse;
+import dev.mrlich.dogeshop.api.dto.response.LogoutResponse;
 import dev.mrlich.dogeshop.auth.UserAuthentication;
 import dev.mrlich.dogeshop.entity.AccountEntity;
 import dev.mrlich.dogeshop.service.AccountService;

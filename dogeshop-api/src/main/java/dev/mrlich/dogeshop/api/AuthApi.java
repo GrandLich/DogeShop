@@ -1,8 +1,8 @@
 package dev.mrlich.dogeshop.api;
 
-import dev.mrlich.dogeshop.api.model.request.LoginRequest;
-import dev.mrlich.dogeshop.api.model.response.LoginResponse;
-import dev.mrlich.dogeshop.api.model.response.LogoutResponse;
+import dev.mrlich.dogeshop.api.dto.request.LoginRequest;
+import dev.mrlich.dogeshop.api.dto.response.LoginResponse;
+import dev.mrlich.dogeshop.api.dto.response.LogoutResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

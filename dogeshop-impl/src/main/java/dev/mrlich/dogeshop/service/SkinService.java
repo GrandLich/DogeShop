@@ -1,6 +1,6 @@
 package dev.mrlich.dogeshop.service;
 
-import dev.mrlich.dogeshop.api.model.Skin;
+import dev.mrlich.dogeshop.api.dto.Skin;
 import dev.mrlich.dogeshop.entity.SkinEntity;
 
 import java.util.List;
