@@ -10,7 +10,7 @@ import java.util.Optional;
 @Repository
 public interface SkinRepository extends CrudRepository<Skin, Long> {
 
-    @Query("select skin from SkinEntity skin where skin.name = ?1")
+    @Query("SELECT skin FROM Skin skin WHERE skin.name = ?1")
     Optional<Skin> findByName(String name);
 
 }
