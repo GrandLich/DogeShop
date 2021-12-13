@@ -33,6 +33,7 @@
 		<lombok.version>1.18.22</lombok.version>
 		<postgresql.driver.version>42.3.0</postgresql.driver.version>
 		<orika.mapper.version>1.5.4</orika.mapper.version>
+		<swagger.version>2.9.2</swagger.version>
 
 		<dogeshop.database.connection.url>jdbc:postgresql://localhost:5432/dogeshop</dogeshop.database.connection.url>
 		<dogeshop.database.connection.username>dogeshop</dogeshop.database.connection.username>
@@ -96,6 +97,16 @@
 				<groupId>ma.glasnost.orika</groupId>
 				<artifactId>orika-core</artifactId>
 				<version>${orika.mapper.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.springfox</groupId>
+				<artifactId>springfox-swagger2</artifactId>
+				<version>${swagger.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.springfox</groupId>
+				<artifactId>springfox-swagger-ui</artifactId>
+				<version>${swagger.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
