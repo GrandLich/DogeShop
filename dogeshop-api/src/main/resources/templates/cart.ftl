@@ -107,17 +107,14 @@
                             url:'/api/cart/buy',
                             type:'post',
                             success:function(response) {
-								if(response.message == "Not enough money") {
-									$("#buy_modal").css('background-color', '#9c435c');
-									$("#modal_message").text('<@spring.message code='cart.notification.fail.text'/>');
-								} else {
-									$("#buy_modal").css('background-color', '#59E12F');
-									$("#modal_message").text('<@spring.message code='cart.notification.success.text'/>');
-								}
+								$("#buy_modal").css('background-color', '#59E12F');
+								$("#modal_message").text('<@spring.message code='cart.notification.success.text'/>');
             					console.log(response)
                             },
                             error: function (err) {
                                 console.log(err)
+                                $("#buy_modal").css('background-color', '#9c435c');
+                                $("#modal_message").text('<@spring.message code='cart.notification.fail.text'/>');
                             }
                         });
                 });

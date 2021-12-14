@@ -79,8 +79,8 @@ public class MainPageController {
         Map<String, Object> models = new HashMap<>();
         models.put("authed", authentication.isLoggedIn());
         if (authentication.isLoggedIn()) {
-            models.put("balance", authentication.getCurrentAccount().getBalance());
-            models.put("username", authentication.getCurrentAccount().getName());
+            models.put("balance", authentication.getAccount().getBalance());
+            models.put("username", authentication.getAccount().getName());
         }
         return models;
     }
@@ -97,8 +97,8 @@ public class MainPageController {
         if (!authentication.isLoggedIn()) {
             return models;
         }
-        models.put("cartSkins", mapperFacade.mapAsList(accountService.getSkinsInCart(authentication.getCurrentAccount()), SkinDto.class));
-        BigDecimal cartSkinsTotalPrice = accountService.getSkinsInCart(authentication.getCurrentAccount()).stream()
+        models.put("cartSkins", mapperFacade.mapAsList(accountService.getSkinsInCart(authentication.getAccount().getId()), SkinDto.class));
+        BigDecimal cartSkinsTotalPrice = accountService.getSkinsInCart(authentication.getAccount().getId()).stream()
                 .map(Skin::getPrice)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
         models.put("cartSkinsTotal",cartSkinsTotalPrice);
@@ -110,7 +110,7 @@ public class MainPageController {
         if (!authentication.isLoggedIn()) {
             return models;
         }
-        models.put("orders", mapperFacade.mapAsList(orderService.getOrders(authentication.getCurrentAccount()), OrderDto.class));
+        models.put("orders", mapperFacade.mapAsList(accountService.getOrders(authentication.getAccount().getId()), OrderDto.class));
         return models;
     }
 

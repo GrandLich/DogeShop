@@ -16,6 +16,9 @@ public class SkinDto {
     @ApiModelProperty(value = "Наименование", required = true)
     private String name;
 
+    @ApiModelProperty(value = "JSON-строка с локализациями", required = true)
+    private String localizedName;
+
     @ApiModelProperty(value = "Ссылка на картинку")
     private String pictureUrl;
 

@@ -8,18 +8,15 @@ import dev.mrlich.dogeshop.repository.AccountRepository;
 import dev.mrlich.dogeshop.service.AccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityGraph;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import java.math.BigDecimal;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
 public class AccountServiceImpl implements AccountService {
 
     private final AccountRepository accountRepository;
@@ -62,33 +59,27 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public void clearCart(Account account) {
-        EntityGraph<?> graph = em.createEntityGraph("AccountEntity.cartItems");
-        TypedQuery<Account> q = em.createQuery("SELECT a FROM Account a where a.id = " + account.getId(), Account.class)
-                .setHint("javax.persistence.fetchgraph", graph);
-        Account entity = q.getSingleResult();
-        entity.getCartItems().clear();
-        accountRepository.save(account);
+    public void clearCart(Long accountId) {
+        getAccount(accountId).ifPresent(account -> {
+            account.getCartItems().clear();
+            accountRepository.save(account);
+        });
     }
 
     @Override
-    public void addSkinToCart(Account account, Skin skin) {
-        EntityGraph<?> graph = em.createEntityGraph("AccountEntity.cartItems");
-        TypedQuery<Account> q = em.createQuery("SELECT a FROM Account a where a.id = " + account.getId(), Account.class)
-                .setHint("javax.persistence.fetchgraph", graph);
-        Account entity = q.getSingleResult();
-        entity.getCartItems().add(skin);
-        accountRepository.save(account);
+    public void addSkinToCart(Long accountId, Skin skin) {
+        getAccount(accountId).ifPresent(account -> {
+            account.getCartItems().add(skin);
+            accountRepository.save(account);
+        });
     }
 
     @Override
-    public void addOrderToAccount(Account account, Order order) {
-        EntityGraph<?> graph = em.createEntityGraph("AccountEntity.orders");
-        TypedQuery<Account> q = em.createQuery("SELECT a FROM Account a where a.id = " + account.getId(), Account.class)
-                .setHint("javax.persistence.fetchgraph", graph);
-        Account entity = q.getSingleResult();
-        entity.getOrders().add(order);
-        accountRepository.save(account);
+    public void addOrderToAccount(Long accountId, Order order) {
+        getAccount(accountId).ifPresent(account -> {
+            account.getOrders().add(order);
+            accountRepository.save(account);
+        });
     }
 
     @Override
@@ -98,12 +89,17 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public Set<Skin> getSkinsInCart(Account account) {
-        EntityGraph<?> graph = em.createEntityGraph("AccountEntity.cartItems");
-        TypedQuery<Account> q = em.createQuery("SELECT a FROM Account a where a.id = " + account.getId(), Account.class)
-                .setHint("javax.persistence.fetchgraph", graph);
-        Account entity = q.getSingleResult();
-        return entity.getCartItems();
+    public Set<Skin> getSkinsInCart(Long accountId) {
+        Set<Skin> skins = new HashSet<>();
+        getAccount(accountId).ifPresent(account -> skins.addAll(account.getCartItems()));
+        return skins;
+    }
+
+    @Override
+    public List<Order> getOrders(Long accountId) {
+        List<Order> orders = new ArrayList<>();
+        getAccount(accountId).ifPresent(account -> orders.addAll(account.getOrders()));
+        return orders;
     }
 
 }

@@ -4,13 +4,13 @@ import dev.mrlich.dogeshop.api.dto.AccountDto;
 import dev.mrlich.dogeshop.api.dto.OrderDto;
 import dev.mrlich.dogeshop.api.dto.request.CreateAccountRequest;
 import dev.mrlich.dogeshop.api.dto.request.DepositAccountRequest;
-import dev.mrlich.dogeshop.api.dto.response.LogoutResponse;
+import dev.mrlich.dogeshop.api.exception.ActionIsNotAllowedException;
+import dev.mrlich.dogeshop.api.exception.EntityNotFoundException;
 import dev.mrlich.dogeshop.auth.UserAuthentication;
 import dev.mrlich.dogeshop.entity.Account;
 import dev.mrlich.dogeshop.service.AccountService;
 import dev.mrlich.dogeshop.service.OrderService;
 import dev.mrlich.dogeshop.util.test.TestUtils;
-import liquibase.pro.packaged.C;
 import ma.glasnost.orika.MapperFacade;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,51 +26,44 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class AccountApiImplTest {
+public class AccountResourceImplTest {
 
     @Mock
     private MapperFacade mapper;
     @Mock
     private AccountService accountService;
     @Mock
-    private OrderService orderService;
-    @Mock
     private UserAuthentication authentication;
 
     @InjectMocks
-    private AccountApiImpl accountApi;
+    private AccountResourceImpl accountApi;
 
     @Test
-    void getAccountShouldReturnNotFoundIfAccountNotFound() {
+    void getAccountShouldThrowEntityNotFoundExceptionIfAccountNotFound() {
         Long id = TestUtils.randomLong();
 
         when(accountService.getAccount(id)).thenReturn(Optional.empty());
 
-        ResponseEntity<AccountDto> actual = accountApi.getAccount(id);
-
-        assertNotNull(actual);
-        assertEquals(HttpStatus.NOT_FOUND, actual.getStatusCode());
+        assertThrows(EntityNotFoundException.class, () -> accountApi.getAccount(id));
     }
 
     @Test
-    void getAccountShouldReturnOkIfSuccessful() {
+    void getAccountShouldReturnAccountIfSuccessful() {
         Long id = TestUtils.randomLong();
         Account account = generateAccount();
 
         when(accountService.getAccount(id)).thenReturn(Optional.of(account));
         when(mapper.map(account, AccountDto.class)).thenReturn(generateAccountDto());
 
-        ResponseEntity<AccountDto> actual = accountApi.getAccount(id);
+        AccountDto actual = accountApi.getAccount(id);
 
         assertNotNull(actual);
-        assertEquals(HttpStatus.OK, actual.getStatusCode());
         verify(mapper).map(account, AccountDto.class);
     }
 
@@ -83,22 +76,18 @@ public class AccountApiImplTest {
                 .thenReturn(account);
         when(mapper.map(account, AccountDto.class)).thenReturn(generateAccountDto());
 
-        ResponseEntity<AccountDto> actual = accountApi.createAccount(createAccountRequest);
+        AccountDto actual = accountApi.createAccount(createAccountRequest);
 
         assertNotNull(actual);
-        assertEquals(HttpStatus.CREATED, actual.getStatusCode());
         verify(accountService).createAccount(createAccountRequest.getName(), createAccountRequest.getPassword());
         verify(mapper).map(account, AccountDto.class);
     }
 
     @Test
-    void depositAccountShouldReturnForbiddenIfNotAuthorized() {
+    void depositAccountShouldThrowActionIsNotAllowedIfNotAuthorized() {
         DepositAccountRequest depositAccountRequest = generateDepositAccountRequest();
 
-        ResponseEntity<Void> actual = accountApi.depositAccount(depositAccountRequest);
-
-        assertNotNull(actual);
-        assertEquals(HttpStatus.FORBIDDEN, actual.getStatusCode());
+        assertThrows(ActionIsNotAllowedException.class, () -> accountApi.depositAccount(depositAccountRequest));
     }
 
     @Test
@@ -107,41 +96,36 @@ public class AccountApiImplTest {
         Account account = generateAccount();
 
         when(authentication.isLoggedIn()).thenReturn(true);
-        when(authentication.getCurrentAccount()).thenReturn(account);
+        when(authentication.getAccount()).thenReturn(account);
 
-        ResponseEntity<Void> actual = accountApi.depositAccount(depositAccountRequest);
+        accountApi.depositAccount(depositAccountRequest);
 
-        assertNotNull(actual);
-        assertEquals(HttpStatus.OK, actual.getStatusCode());
         verify(accountService).setBalance(eq(account), any());
     }
 
     @Test
-    void getAccountOrdersShouldReturnNotFoundIfAccountNotFound() {
+    void getAccountOrdersShouldThrowEntityNotFoundExceptionIfAccountNotFound() {
         Long id = TestUtils.randomLong();
 
         when(accountService.getAccount(id)).thenReturn(Optional.empty());
 
-        ResponseEntity<List<OrderDto>> actual = accountApi.getAccountOrders(id);
-
-        assertNotNull(actual);
-        assertEquals(HttpStatus.NOT_FOUND, actual.getStatusCode());
+        assertThrows(EntityNotFoundException.class, () -> accountApi.getAccountOrders(id));
     }
 
     @Test
     void getAccountOrdersShouldReturnOrderListFromOrderService() {
         Long id = TestUtils.randomLong();
         Account account = generateAccount();
+        account.setId(id);
 
         when(accountService.getAccount(id)).thenReturn(Optional.of(account));
-        when(orderService.getOrders(account)).thenReturn(Collections.emptyList());
+        when(accountService.getOrders(id)).thenReturn(Collections.emptyList());
         when(mapper.mapAsList(anyIterable(), eq(OrderDto.class))).thenReturn(Collections.emptyList());
 
-        ResponseEntity<List<OrderDto>> actual = accountApi.getAccountOrders(id);
+        List<OrderDto> actual = accountApi.getAccountOrders(id);
 
         assertNotNull(actual);
-        assertEquals(HttpStatus.OK, actual.getStatusCode());
-        verify(orderService).getOrders(account);
+        verify(accountService).getOrders(id);
         verify(mapper).mapAsList(anyIterable(), eq(OrderDto.class));
     }
 

@@ -1,7 +1,8 @@
 package dev.mrlich.dogeshop.controller.api;
 
-import dev.mrlich.dogeshop.api.SkinApi;
+import dev.mrlich.dogeshop.api.SkinResource;
 import dev.mrlich.dogeshop.api.dto.SkinDto;
+import dev.mrlich.dogeshop.api.exception.EntityNotFoundException;
 import dev.mrlich.dogeshop.api.exception.SkinAlreadyExistsException;
 import dev.mrlich.dogeshop.entity.Skin;
 import dev.mrlich.dogeshop.service.SkinService;
@@ -10,31 +11,32 @@ import ma.glasnost.orika.MapperFacade;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Optional;
 
 @RestController
 @AllArgsConstructor
-public class SkinApiImpl implements SkinApi {
+public class SkinResourceImpl implements SkinResource {
 
     private final SkinService skinService;
     private final MapperFacade mapper;
 
     @Override
-    public ResponseEntity<SkinDto> getSkin(Long skinId) {
+    public SkinDto getSkin(Long skinId) {
         Optional<Skin> skinEntity = skinService.getSkin(skinId);
         if (skinEntity.isEmpty()) {
-            return ResponseEntity.notFound().build();
+            throw new EntityNotFoundException();
         }
-        SkinDto skinDto = mapper.map(skinEntity.get(), SkinDto.class);
-        return ResponseEntity.ok(skinDto);
+        return mapper.map(skinEntity.get(), SkinDto.class);
     }
 
     @Override
-    public ResponseEntity<SkinDto> createSkin(SkinDto skinDto) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public SkinDto createSkin(SkinDto skinDto) {
         Skin skin = skinService.createSkin(skinDto);
-        return ResponseEntity.status(201).body(mapper.map(skin, SkinDto.class));
+        return mapper.map(skin, SkinDto.class);
     }
 
     @ExceptionHandler(SkinAlreadyExistsException.class)

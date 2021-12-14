@@ -1,9 +1,10 @@
 package dev.mrlich.dogeshop.controller.api;
 
-import dev.mrlich.dogeshop.api.AuthApi;
+import dev.mrlich.dogeshop.api.AuthResource;
 import dev.mrlich.dogeshop.api.dto.request.LoginRequest;
 import dev.mrlich.dogeshop.api.dto.response.LoginResponse;
-import dev.mrlich.dogeshop.api.dto.response.LogoutResponse;
+import dev.mrlich.dogeshop.api.exception.ActionIsNotAllowedException;
+import dev.mrlich.dogeshop.api.exception.AuthenticationException;
 import dev.mrlich.dogeshop.auth.UserAuthentication;
 import dev.mrlich.dogeshop.entity.Account;
 import dev.mrlich.dogeshop.service.AccountService;
@@ -16,31 +17,29 @@ import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
-public class AuthApiImpl implements AuthApi {
+public class AuthResourceImpl implements AuthResource {
 
     private final AccountService accountService;
     private final UserAuthentication authentication;
 
     @Override
-    public ResponseEntity<LoginResponse> login(LoginRequest loginRequest) {
+    public LoginResponse login(LoginRequest loginRequest) {
         if (authentication.isLoggedIn()) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+            throw new ActionIsNotAllowedException();
         }
         Optional<Account> account = accountService.findByNameAndPassword(loginRequest.getName(), loginRequest.getPassword());
         if (account.isEmpty()) {
-            return ResponseEntity.badRequest()
-                    .body(new LoginResponse().message("Incorrect username or password"));
+            throw new AuthenticationException();
         }
-        authentication.setCurrentAccount(account.get());
-        return ResponseEntity.ok(new LoginResponse().accountName(account.get().getName()));
+        authentication.switchAccount(account.get());
+        return new LoginResponse().accountName(account.get().getName());
     }
 
     @Override
-    public ResponseEntity<LogoutResponse> logout() {
+    public void logout() {
         if (!authentication.isLoggedIn()) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+            throw new ActionIsNotAllowedException();
         }
-        authentication.setCurrentAccount(null);
-        return ResponseEntity.ok().build();
+        authentication.switchAccount(null);
     }
 }

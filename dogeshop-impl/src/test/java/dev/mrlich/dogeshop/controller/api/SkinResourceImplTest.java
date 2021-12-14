@@ -1,6 +1,8 @@
 package dev.mrlich.dogeshop.controller.api;
 
 import dev.mrlich.dogeshop.api.dto.SkinDto;
+import dev.mrlich.dogeshop.api.exception.ActionIsNotAllowedException;
+import dev.mrlich.dogeshop.api.exception.EntityNotFoundException;
 import dev.mrlich.dogeshop.entity.Skin;
 import dev.mrlich.dogeshop.service.SkinService;
 import dev.mrlich.dogeshop.util.test.TestUtils;
@@ -16,13 +18,12 @@ import org.springframework.http.ResponseEntity;
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class SkinApiImplTest {
+public class SkinResourceImplTest {
 
     @Mock
     private SkinService skinService;
@@ -30,7 +31,7 @@ public class SkinApiImplTest {
     private MapperFacade mapper;
 
     @InjectMocks
-    private SkinApiImpl skinApi;
+    private SkinResourceImpl skinApi;
 
     @Test
     void positiveGetSkinMustReturnValidSkinDto() {
@@ -40,23 +41,18 @@ public class SkinApiImplTest {
         when(skinService.getSkin(id)).thenReturn(Optional.of(generateSkin()));
         when(mapper.map(any(), any())).thenReturn(skinDto);
 
-        ResponseEntity<SkinDto> actual = skinApi.getSkin(id);
+        SkinDto actual = skinApi.getSkin(id);
 
         assertNotNull(actual);
-        assertEquals(actual.getStatusCode(), HttpStatus.OK);
-        assertEquals(actual.getBody(), skinDto);
     }
 
     @Test
-    void negativeGetSkinMustReturnNotFound() {
+    void negativeGetSkinMustThrowEntityNotFoundException() {
         Long id = TestUtils.randomLong();
 
         when(skinService.getSkin(id)).thenReturn(Optional.empty());
 
-        ResponseEntity<SkinDto> actual = skinApi.getSkin(id);
-
-        assertNotNull(actual);
-        assertEquals(actual.getStatusCode(), HttpStatus.NOT_FOUND);
+        assertThrows(EntityNotFoundException.class, () -> skinApi.getSkin(id));
     }
 
     @Test
@@ -66,11 +62,9 @@ public class SkinApiImplTest {
         when(skinService.createSkin(skinDto)).thenReturn(generateSkin());
         when(mapper.map(any(), any())).thenReturn(skinDto);
 
-        ResponseEntity<SkinDto> actual = skinApi.createSkin(skinDto);
+        SkinDto actual = skinApi.createSkin(skinDto);
 
         assertNotNull(actual);
-        assertEquals(actual.getStatusCode(), HttpStatus.CREATED);
-        assertEquals(actual.getBody(), skinDto);
     }
 
     private Skin generateSkin() {

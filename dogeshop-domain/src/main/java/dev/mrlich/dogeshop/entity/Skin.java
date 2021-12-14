@@ -15,6 +15,7 @@ public class Skin {
     @SequenceGenerator(name="skin_seq", sequenceName="skin_pk_seq", allocationSize = 1)
     private Long id;
     private String name;
+    private String localizedName;
     private String pictureUrl;
     private String description;
     private BigDecimal price;

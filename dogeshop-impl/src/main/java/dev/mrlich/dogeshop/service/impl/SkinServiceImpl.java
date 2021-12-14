@@ -38,6 +38,7 @@ public class SkinServiceImpl implements SkinService {
         skin.setDescription(skinDto.getDescription());
         skin.setPrice(skinDto.getPrice());
         skin.setPictureUrl(skinDto.getPictureUrl());
+        skin.setLocalizedName(skinDto.getLocalizedName());
         return skinRepository.save(skin);
     }
 
@@ -53,9 +54,7 @@ public class SkinServiceImpl implements SkinService {
 
     @Override
     public List<Skin> getAll() {
-        List<Skin> skins = new ArrayList<>();
-        skinRepository.findAll().forEach(skins::add);
-        return skins;
+        return skinRepository.findAll();
     }
 
 }

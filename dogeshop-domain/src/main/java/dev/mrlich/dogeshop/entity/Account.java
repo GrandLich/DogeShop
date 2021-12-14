@@ -1,6 +1,7 @@
 package dev.mrlich.dogeshop.entity;
 
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -18,6 +19,7 @@ import java.util.Set;
         @NamedEntityGraph(name = "AccountEntity.orders",
                 attributeNodes = @NamedAttributeNode("orders"))
 })
+@Accessors(chain = true)
 public class Account {
 
     @Id

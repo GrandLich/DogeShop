@@ -11,8 +11,6 @@ public interface OrderService {
 
     Optional<Order> getOrder(Long id);
 
-    List<Order> getOrders(Account account);
-
     Order createOrder(Account account, Skin skin);
 
     void deleteOrder(Long id);

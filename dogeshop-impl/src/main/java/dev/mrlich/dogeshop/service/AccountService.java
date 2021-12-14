@@ -5,6 +5,7 @@ import dev.mrlich.dogeshop.entity.Order;
 import dev.mrlich.dogeshop.entity.Skin;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -22,14 +23,16 @@ public interface AccountService {
 
     void updateAccount(Account account);
 
-    void clearCart(Account account);
+    void clearCart(Long accountId);
 
-    void addSkinToCart(Account account, Skin skin);
+    void addSkinToCart(Long accountId, Skin skin);
 
-    void addOrderToAccount(Account account, Order order);
+    void addOrderToAccount(Long accountId, Order order);
 
     void setBalance(Account account, BigDecimal balance);
 
-    Set<Skin> getSkinsInCart(Account account);
+    Set<Skin> getSkinsInCart(Long accountId);
+
+    List<Order> getOrders(Long accountId);
 
 }

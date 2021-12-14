@@ -14,6 +14,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
+import java.util.HashSet;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -119,45 +120,73 @@ public class AccountServiceImplTest {
     }
 
     @Test
-    @Disabled
-    void clearCartMustCallSaveMethod() {
-        Account account = new Account();
+    void clearCartMustCallSaveMethodAndClearCartItems() {
+        Account account = generateAccount();
 
-        service.clearCart(account);
+        when(accountRepository.findById(account.getId())).thenReturn(Optional.of(account));
 
+        service.clearCart(account.getId());
+
+        assertEquals(0, account.getCartItems().size());
         verify(accountRepository).save(account);
     }
 
     @Test
-    @Disabled
-    void addSkinToCartMustCallSaveMethod() {
-        Account account = new Account();
+    void addSkinToCartMustCallSaveMethodAndAddSkinToCartItems() {
+        Account account = generateAccount();
         Skin skin = new Skin();
 
-        service.addSkinToCart(account, skin);
+        when(accountRepository.findById(account.getId())).thenReturn(Optional.of(account));
 
+        service.addSkinToCart(account.getId(), skin);
+
+        assertEquals(3, account.getCartItems().size());
         verify(accountRepository).save(account);
     }
 
     @Test
-    @Disabled
-    void addOrderMustCallSaveMethod() {
+    void addOrderMustCallSaveMethodAndAddOrder() {
         Account account = new Account();
         Order order = new Order();
 
-        service.addOrderToAccount(account, order);
+        when(accountRepository.findById(account.getId())).thenReturn(Optional.of(account));
 
+        service.addOrderToAccount(account.getId(), order);
+
+        assertEquals(1, account.getOrders().size());
         verify(accountRepository).save(account);
     }
 
     @Test
-    void setBalanceMustCallSaveMethod() {
+    void setBalanceMustCallSaveMethodAndSetBalance() {
         Account account = new Account();
         BigDecimal bigDecimal = BigDecimal.ONE;
 
         service.setBalance(account, bigDecimal);
 
+        assertEquals(BigDecimal.ONE, account.getBalance());
         verify(accountRepository).save(account);
+    }
+
+    private Account generateAccount() {
+        Account account = new Account();
+        account.setId(1L);
+        account.setCartItems(generateCart());
+
+        return account;
+    }
+
+    private HashSet<Skin> generateCart() {
+        HashSet<Skin> skins = new HashSet<>();
+        skins.add(createSkin("Vasya"));
+        skins.add(createSkin("Pupkin"));
+        return skins;
+    }
+
+    private Skin createSkin(String name) {
+        Skin skin = new Skin();
+        skin.setName(name);
+        return skin;
     }
 
 }
