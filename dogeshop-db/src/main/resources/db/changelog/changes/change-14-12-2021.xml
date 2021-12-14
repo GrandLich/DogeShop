@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
+
+    <changeSet id="N1-14-12-2021" author="MrLich">
+        <addColumn tableName="skin">
+            <column name="localized_name" type="varchar(256)"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="N2-14-12-2021-FillData" author="MrLich">
+        <insert tableName="account">
+            <column name="name" value="admin"/>
+            <column name="password" value="admin"/>
+            <column name="balance" value="100"/>
+        </insert>
+        <insert tableName="skin">
+            <column name="name" value="anime"/>
+            <column name="picture_url" value="/img/skin/skin1.png"/>
+            <column name="description" value="Анимешник"/>
+            <column name="price" value="5000"/>
+        </insert>
+        <insert tableName="skin">
+            <column name="name" value="brutal"/>
+            <column name="picture_url" value="/img/skin/skin3.png"/>
+            <column name="description" value="Эпичный брутальный дед"/>
+            <column name="price" value="20000"/>
+        </insert>
+        <insert tableName="skin">
+            <column name="name" value="pumpkin"/>
+            <column name="picture_url" value="/img/skin/skin2.png"/>
+            <column name="description" value="Тыквенный человек"/>
+            <column name="price" value="10000"/>
+        </insert>
+        <insert tableName="skin">
+            <column name="name" value="classic"/>
+            <column name="picture_url" value="/img/skin/skin4.png"/>
+            <column name="description" value="Это настоящий классик. Я бы даже сказал..."/>
+            <column name="price" value="50000"/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>
