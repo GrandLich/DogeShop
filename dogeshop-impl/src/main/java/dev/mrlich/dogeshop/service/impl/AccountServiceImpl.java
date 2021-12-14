@@ -64,7 +64,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public void clearCart(Account account) {
         EntityGraph<?> graph = em.createEntityGraph("AccountEntity.cartItems");
-        TypedQuery<Account> q = em.createQuery("SELECT a FROM AccountEntity a where a.id = " + account.getId(), Account.class)
+        TypedQuery<Account> q = em.createQuery("SELECT a FROM Account a where a.id = " + account.getId(), Account.class)
                 .setHint("javax.persistence.fetchgraph", graph);
         Account entity = q.getSingleResult();
         entity.getCartItems().clear();
@@ -74,7 +74,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public void addSkinToCart(Account account, Skin skin) {
         EntityGraph<?> graph = em.createEntityGraph("AccountEntity.cartItems");
-        TypedQuery<Account> q = em.createQuery("SELECT a FROM AccountEntity a where a.id = " + account.getId(), Account.class)
+        TypedQuery<Account> q = em.createQuery("SELECT a FROM Account a where a.id = " + account.getId(), Account.class)
                 .setHint("javax.persistence.fetchgraph", graph);
         Account entity = q.getSingleResult();
         entity.getCartItems().add(skin);
@@ -84,7 +84,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public void addOrderToAccount(Account account, Order order) {
         EntityGraph<?> graph = em.createEntityGraph("AccountEntity.orders");
-        TypedQuery<Account> q = em.createQuery("SELECT a FROM AccountEntity a where a.id = " + account.getId(), Account.class)
+        TypedQuery<Account> q = em.createQuery("SELECT a FROM Account a where a.id = " + account.getId(), Account.class)
                 .setHint("javax.persistence.fetchgraph", graph);
         Account entity = q.getSingleResult();
         entity.getOrders().add(order);
@@ -100,7 +100,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public Set<Skin> getSkinsInCart(Account account) {
         EntityGraph<?> graph = em.createEntityGraph("AccountEntity.cartItems");
-        TypedQuery<Account> q = em.createQuery("SELECT a FROM AccountEntity a where a.id = " + account.getId(), Account.class)
+        TypedQuery<Account> q = em.createQuery("SELECT a FROM Account a where a.id = " + account.getId(), Account.class)
                 .setHint("javax.persistence.fetchgraph", graph);
         Account entity = q.getSingleResult();
         return entity.getCartItems();

@@ -30,7 +30,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<Order> getOrders(Account account) {
         EntityGraph<?> graph = em.createEntityGraph("AccountEntity.orders");
-        TypedQuery<Account> q = em.createQuery("SELECT a FROM AccountEntity a where a.id = " + account.getId(), Account.class)
+        TypedQuery<Account> q = em.createQuery("SELECT a FROM Account a where a.id = " + account.getId(), Account.class)
                 .setHint("javax.persistence.fetchgraph", graph);
         Account entity = q.getSingleResult();
         return entity.getOrders();
