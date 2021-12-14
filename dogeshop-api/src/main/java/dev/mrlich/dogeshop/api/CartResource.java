@@ -1,5 +1,6 @@
 package dev.mrlich.dogeshop.api;
 
+import dev.mrlich.dogeshop.api.dto.Currency;
 import dev.mrlich.dogeshop.api.dto.SkinDto;
 import dev.mrlich.dogeshop.api.dto.response.MessageResponse;
 import io.swagger.annotations.Api;
@@ -9,6 +10,7 @@ import io.swagger.annotations.ApiResponses;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @RequestMapping("/api/cart")
@@ -41,5 +43,9 @@ public interface CartResource {
     )
     @PostMapping("/buy")
     void buy();
+
+    @ApiOperation("Получение коэффициента стоимости валюты относительно рубля")
+    @GetMapping("/currencyRates/{currency}")
+    BigDecimal currenciesRates(@PathVariable("currency") Currency currency);
 
 }

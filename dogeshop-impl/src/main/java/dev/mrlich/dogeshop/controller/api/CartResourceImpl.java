@@ -1,6 +1,7 @@
 package dev.mrlich.dogeshop.controller.api;
 
 import dev.mrlich.dogeshop.api.CartResource;
+import dev.mrlich.dogeshop.api.dto.Currency;
 import dev.mrlich.dogeshop.api.dto.SkinDto;
 import dev.mrlich.dogeshop.api.exception.EntityNotFoundException;
 import dev.mrlich.dogeshop.api.exception.ActionIsNotAllowedException;
@@ -9,10 +10,13 @@ import dev.mrlich.dogeshop.auth.UserAuthentication;
 import dev.mrlich.dogeshop.entity.Order;
 import dev.mrlich.dogeshop.entity.Skin;
 import dev.mrlich.dogeshop.service.AccountService;
+import dev.mrlich.dogeshop.service.CurrencyService;
 import dev.mrlich.dogeshop.service.OrderService;
 import dev.mrlich.dogeshop.service.SkinService;
 import lombok.RequiredArgsConstructor;
 import ma.glasnost.orika.MapperFacade;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -30,6 +34,7 @@ public class CartResourceImpl implements CartResource {
     private final SkinService skinService;
     private final OrderService orderService;
     private final MapperFacade mapper;
+    private final CurrencyService currencyService;
 
     @Override
     public List<SkinDto> getCartContents() {
@@ -78,5 +83,10 @@ public class CartResourceImpl implements CartResource {
         });
         accountService.setBalance(authentication.getAccount(), authentication.getAccount().getBalance().subtract(totalPrice));
         accountService.clearCart(authentication.getAccount().getId());
+    }
+
+    @Override
+    public BigDecimal currenciesRates(@PathVariable("currency") Currency currency) {
+        return currencyService.getCurrencyRate(currency);
     }
 }

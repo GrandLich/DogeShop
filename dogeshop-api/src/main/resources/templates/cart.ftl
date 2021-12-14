@@ -54,10 +54,9 @@
     $('#cur').on("change", function () {
         let cur = $(this).val();
         $.ajax({
-            url:'https://www.cbr-xml-daily.ru/latest.js',
+            url:'/api/cart/currencyRates/' + cur,
             type:'get',
             success:function(response){
-                let currencies;
                 let c_n = {
                     'UAH': 'UAH',
                     'EUR': 'EUR',
@@ -65,9 +64,7 @@
                     'USD': 'USD',
                     'RUB': 'RUB'
                 }
-                currencies = JSON.parse(response).rates;
-                let rate = 1;
-                if (cur !== "RUB") { rate = currencies[cur]; }
+                let rate = response;
                 $('.product').each(function () {
                     let p_price = $(this).find('.product_price');
 					
