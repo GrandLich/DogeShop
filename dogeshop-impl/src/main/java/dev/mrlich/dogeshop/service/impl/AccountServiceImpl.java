@@ -5,13 +5,12 @@ import dev.mrlich.dogeshop.entity.Account;
 import dev.mrlich.dogeshop.entity.Order;
 import dev.mrlich.dogeshop.entity.Skin;
 import dev.mrlich.dogeshop.repository.AccountRepository;
+import dev.mrlich.dogeshop.repository.OrderRepository;
 import dev.mrlich.dogeshop.service.AccountService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityGraph;
-import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
 import java.math.BigDecimal;
 import java.util.*;
 
@@ -20,7 +19,7 @@ import java.util.*;
 public class AccountServiceImpl implements AccountService {
 
     private final AccountRepository accountRepository;
-    private final EntityManager em;
+    private final OrderRepository orderRepository;
 
     @Override
     public Optional<Account> getAccount(Long id) {
@@ -96,10 +95,8 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public List<Order> getOrders(Long accountId) {
-        List<Order> orders = new ArrayList<>();
-        getAccount(accountId).ifPresent(account -> orders.addAll(account.getOrders()));
-        return orders;
+    public List<Order> getOrders(Long accountId, Pageable pageable) {
+        return orderRepository.findAllByAccountId(accountId, pageable);
     }
 
 }

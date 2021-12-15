@@ -20,7 +20,6 @@ import java.util.Optional;
 public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
-    private final EntityManager em;
 
     @Override
     public Optional<Order> getOrder(Long id) {

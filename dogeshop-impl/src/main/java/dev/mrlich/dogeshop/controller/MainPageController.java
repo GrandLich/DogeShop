@@ -10,9 +10,11 @@ import dev.mrlich.dogeshop.service.SkinService;
 import dev.mrlich.dogeshop.util.MapUtil;
 import lombok.RequiredArgsConstructor;
 import ma.glasnost.orika.MapperFacade;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.math.BigDecimal;
@@ -31,12 +33,12 @@ public class MainPageController {
     private final MapperFacade mapperFacade;
 
     @GetMapping("/")
-    public ModelAndView mainPage(Model model) {
+    public ModelAndView mainPage() {
         return new ModelAndView("main", MapUtil.mergeMaps(getAuthenticationModels(), getMainPageSkins(), getCartSkins()));
     }
 
     @GetMapping("/cart")
-    public ModelAndView cart(Model model) {
+    public ModelAndView cart() {
         if (!authentication.isLoggedIn()) {
             return new ModelAndView("redirect:/login");
         }
@@ -44,15 +46,18 @@ public class MainPageController {
     }
 
     @GetMapping("/lk")
-    public ModelAndView lk(Model model) {
+    public ModelAndView lk(
+            @RequestParam(name = "ordersPage", defaultValue = "0", required = false) Integer page,
+            @RequestParam(name = "ordersLimit", defaultValue = "10", required = false) Integer limit
+    ) {
         if (!authentication.isLoggedIn()) {
             return new ModelAndView("redirect:/login");
         }
-        return new ModelAndView("lk", MapUtil.mergeMaps(getAuthenticationModels(), getOrderHistory()));
+        return new ModelAndView("lk", MapUtil.mergeMaps(getAuthenticationModels(), getOrderHistory(page, limit)));
     }
 
     @GetMapping("/login")
-    public ModelAndView login(Model model) {
+    public ModelAndView login() {
         if (authentication.isLoggedIn()) {
             return new ModelAndView("redirect:/lk");
         }
@@ -60,7 +65,7 @@ public class MainPageController {
     }
 
     @GetMapping("/reg")
-    public ModelAndView reg(Model model) {
+    public ModelAndView reg() {
         if (authentication.isLoggedIn()) {
             return new ModelAndView("redirect:/lk");
         }
@@ -68,7 +73,7 @@ public class MainPageController {
     }
 
     @GetMapping("/payment")
-    public ModelAndView payment(Model model) {
+    public ModelAndView payment() {
         if (!authentication.isLoggedIn()) {
             return new ModelAndView("redirect:/login");
         }
@@ -105,12 +110,16 @@ public class MainPageController {
         return models;
     }
 
-    private Map<String, Object> getOrderHistory() {
+    private Map<String, Object> getOrderHistory(Integer page, Integer limit) {
         Map<String, Object> models = new HashMap<>();
         if (!authentication.isLoggedIn()) {
             return models;
         }
-        models.put("orders", mapperFacade.mapAsList(accountService.getOrders(authentication.getAccount().getId()), OrderDto.class));
+        Pageable pageable = PageRequest.of(page, limit);
+        models.put("orders",
+                mapperFacade.mapAsList(
+                        accountService.getOrders(authentication.getAccount().getId(), pageable),
+                        OrderDto.class));
         return models;
     }
 

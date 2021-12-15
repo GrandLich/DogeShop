@@ -17,6 +17,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -119,13 +120,13 @@ public class AccountResourceImplTest {
         account.setId(id);
 
         when(accountService.getAccount(id)).thenReturn(Optional.of(account));
-        when(accountService.getOrders(id)).thenReturn(Collections.emptyList());
+        when(accountService.getOrders(id, Pageable.unpaged())).thenReturn(Collections.emptyList());
         when(mapper.mapAsList(anyIterable(), eq(OrderDto.class))).thenReturn(Collections.emptyList());
 
         List<OrderDto> actual = accountApi.getAccountOrders(id);
 
         assertNotNull(actual);
-        verify(accountService).getOrders(id);
+        verify(accountService).getOrders(id, Pageable.unpaged());
         verify(mapper).mapAsList(anyIterable(), eq(OrderDto.class));
     }
 

@@ -14,6 +14,7 @@ import dev.mrlich.dogeshop.entity.Order;
 import dev.mrlich.dogeshop.service.AccountService;
 import lombok.RequiredArgsConstructor;
 import ma.glasnost.orika.MapperFacade;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -63,7 +64,7 @@ public class AccountResourceImpl implements AccountResource {
         if(accountEntity.isEmpty()) {
             throw new EntityNotFoundException();
         }
-        List<Order> orders = accountService.getOrders(accountEntity.get().getId());
+        List<Order> orders = accountService.getOrders(accountEntity.get().getId(), Pageable.unpaged());
         return mapper.mapAsList(orders, OrderDto.class);
     }
 
