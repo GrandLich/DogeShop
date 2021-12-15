@@ -32,7 +32,7 @@
                     <th><@spring.message code='lk.history.price'/></th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="orders_table">
                 <#list orders as order>
                 <tr>
                     <td>${order.skinName}</td>
@@ -42,6 +42,17 @@
                 </#list>
             </tbody>
         </table>
+        <div class="d-flex flex-row justify-between w-100">
+            <div>
+                <button class="btn btn-dark d-block" id="pagePrev" onclick="pagePrev()"><</button>
+            </div>
+            <div>
+                <span class="d-block my-auto items-center self-center" id="pageNum">1</span>
+            </div>
+            <div>
+                <button class="btn btn-dark d-block items-end self-end" id="pageNext" onclick="pageNext()">></button>
+            </div>
+        </div>
     </div>
 
 </div>
@@ -49,9 +60,27 @@
 <#include "blocks/footer.ftl">
 
 <script>
-
+    function pageNext() {
+        if ($('#orders_table').children().length === 10) window.location.replace('lk?ordersPage=' + (Number($('#pageNum').text()) + 1));
+    }
+    function pagePrev() {
+        if ($('#pageNum').text() >= 1) {
+            window.location.replace('lk?ordersPage=' + (Number($('#pageNum').text()) - 1));
+        }
+    }
 $(document).ready(function(){
-    $("#logout_btn").on('click', function(e){
+    let uri = window.location.search;
+    let params = [];
+    if (uri.length >= 0) {
+        uri = uri.slice(1, uri.length);
+        let params_raw = uri.split('&');
+        for (const param of params_raw) {
+            let p = param.split('=');
+            params[p[0]] = p[1];
+        }
+    }
+    $('#pageNum').text(params['ordersPage']);
+    $("#logout_btn").on('click', function (e) {
 		e.preventDefault();
             $.ajax({
                 url:'/api/auth/logout',

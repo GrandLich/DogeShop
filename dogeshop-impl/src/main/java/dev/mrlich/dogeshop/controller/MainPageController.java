@@ -53,6 +53,7 @@ public class MainPageController {
         if (!authentication.isLoggedIn()) {
             return new ModelAndView("redirect:/login");
         }
+        if (page > 0) page--;
         return new ModelAndView("lk", MapUtil.mergeMaps(getAuthenticationModels(), getOrderHistory(page, limit)));
     }
 
