@@ -64,7 +64,7 @@
         if ($('#orders_table').children().length === 10) window.location.replace('lk?ordersPage=' + (Number($('#pageNum').text()) + 1));
     }
     function pagePrev() {
-        if ($('#pageNum').text() >= 1) {
+        if (Number($('#pageNum').text()) >= 2) {
             window.location.replace('lk?ordersPage=' + (Number($('#pageNum').text()) - 1));
         }
     }

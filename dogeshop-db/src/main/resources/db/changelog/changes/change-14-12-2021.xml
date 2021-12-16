@@ -22,24 +22,28 @@
             <column name="picture_url" value="/img/skin/skin1.png"/>
             <column name="description" value="Анимешник"/>
             <column name="price" value="5000"/>
+            <column name="localized_name" value='{"en":"Animeshnik","ru":"Анимешник"}'/>
         </insert>
         <insert tableName="skin">
             <column name="name" value="brutal"/>
             <column name="picture_url" value="/img/skin/skin3.png"/>
             <column name="description" value="Эпичный брутальный дед"/>
             <column name="price" value="20000"/>
+            <column name="localized_name" value='{"en":"Brutal dead","ru":"Брутальный дед"}'/>
         </insert>
         <insert tableName="skin">
             <column name="name" value="pumpkin"/>
             <column name="picture_url" value="/img/skin/skin2.png"/>
             <column name="description" value="Тыквенный человек"/>
             <column name="price" value="10000"/>
+            <column name="localized_name" value='{"en":"Pumpkin","ru":"Тыква"}'/>
         </insert>
         <insert tableName="skin">
             <column name="name" value="classic"/>
             <column name="picture_url" value="/img/skin/skin4.png"/>
             <column name="description" value="Это настоящий классик. Я бы даже сказал..."/>
             <column name="price" value="50000"/>
+            <column name="localized_name" value='{"en":"Classic","ru":"Классика"}'/>
         </insert>
     </changeSet>
 

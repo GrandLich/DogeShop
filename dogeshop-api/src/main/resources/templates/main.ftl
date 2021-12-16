@@ -8,7 +8,7 @@
             <div class="w-100 h-100 d-flex flex-column justify-content-between text-center align-items-center">
                 <img class="border border-2 rounded" height="150px" width="150px" src="<@spring.url skin.pictureUrl />" alt="">
                 <div style=" -webkit-line-clamp: 3; -webkit-box-orient: vertical; display: -webkit-box; overflow: hidden; text-overflow: ellipsis; font-weight: 600;">
-                    ${skin.description}
+                    ${skin.name}
                 </div>
                     <div class="w-100">
                         <#if authed>
@@ -18,6 +18,7 @@
 								    <button type="button" class="buybtn w-100 btn btn-light border border-2" data-id="${skin.id}"><@spring.message code='skin.addtocart'/></button>
 							</#if>
                         </#if>
+                        <button type="button" style="margin-top: 4px;" class="infobtn w-100 btn btn-light border border-2" data-id="${skin.id}"><@spring.message code='skin.infobtn'/></button>
                     </div>
             </div>
         </div>
@@ -43,6 +44,12 @@
                 }
             });
     });
+
+    $(".infobtn").on('click', function(e){
+    			let btn = $(this);
+    			let id = $(this).attr('data-id');
+                window.location.replace('/skin/' + id);
+        });
 });
 </script>
 
