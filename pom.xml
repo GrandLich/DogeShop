@@ -32,7 +32,7 @@
 		<liquibase.version>4.3.5</liquibase.version>
 		<lombok.version>1.18.22</lombok.version>
 		<postgresql.driver.version>42.3.0</postgresql.driver.version>
-		<orika.mapper.version>1.5.4</orika.mapper.version>
+		<orika.mapper.version>2.2.1</orika.mapper.version>
 		<swagger.version>2.9.2</swagger.version>
 	</properties>
 
@@ -85,14 +85,14 @@
 				<scope>test</scope>
 			</dependency>
 			<dependency>
+				<groupId>dev.akkinoc.spring.boot</groupId>
+				<artifactId>orika-spring-boot-starter</artifactId>
+				<version>${orika.mapper.version}</version>
+			</dependency>
+			<dependency>
 				<groupId>org.postgresql</groupId>
 				<artifactId>postgresql</artifactId>
 				<version>${postgresql.driver.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>ma.glasnost.orika</groupId>
-				<artifactId>orika-core</artifactId>
-				<version>${orika.mapper.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>io.springfox</groupId>
