@@ -1,6 +1,6 @@
-package dev.mrlich.dogeshop.controller.api;
+package dev.mrlich.dogeshop.api.resources.impl;
 
-import dev.mrlich.dogeshop.api.AccountResource;
+import dev.mrlich.dogeshop.api.resource.AccountResource;
 import dev.mrlich.dogeshop.api.dto.AccountDto;
 import dev.mrlich.dogeshop.api.exception.AccountAlreadyExistsException;
 import dev.mrlich.dogeshop.api.dto.OrderDto;

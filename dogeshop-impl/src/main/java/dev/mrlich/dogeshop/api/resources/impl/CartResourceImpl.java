@@ -1,6 +1,6 @@
-package dev.mrlich.dogeshop.controller.api;
+package dev.mrlich.dogeshop.api.resources.impl;
 
-import dev.mrlich.dogeshop.api.CartResource;
+import dev.mrlich.dogeshop.api.resource.CartResource;
 import dev.mrlich.dogeshop.api.dto.Currency;
 import dev.mrlich.dogeshop.api.dto.SkinDto;
 import dev.mrlich.dogeshop.api.exception.EntityNotFoundException;
@@ -15,7 +15,6 @@ import dev.mrlich.dogeshop.service.OrderService;
 import dev.mrlich.dogeshop.service.SkinService;
 import lombok.RequiredArgsConstructor;
 import ma.glasnost.orika.MapperFacade;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;

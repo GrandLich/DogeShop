@@ -1,6 +1,6 @@
-package dev.mrlich.dogeshop.controller.api;
+package dev.mrlich.dogeshop.api.resources.impl;
 
-import dev.mrlich.dogeshop.api.SkinResource;
+import dev.mrlich.dogeshop.api.resource.SkinResource;
 import dev.mrlich.dogeshop.api.dto.SkinDto;
 import dev.mrlich.dogeshop.api.exception.EntityNotFoundException;
 import dev.mrlich.dogeshop.api.exception.SkinAlreadyExistsException;

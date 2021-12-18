@@ -4,6 +4,7 @@ import dev.mrlich.dogeshop.api.dto.request.LoginRequest;
 import dev.mrlich.dogeshop.api.dto.response.LoginResponse;
 import dev.mrlich.dogeshop.api.exception.ActionIsNotAllowedException;
 import dev.mrlich.dogeshop.api.exception.AuthenticationException;
+import dev.mrlich.dogeshop.api.resources.impl.AuthResourceImpl;
 import dev.mrlich.dogeshop.auth.UserAuthentication;
 import dev.mrlich.dogeshop.entity.Account;
 import dev.mrlich.dogeshop.service.AccountService;
@@ -12,8 +13,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 
 import java.util.Optional;
 import java.util.UUID;

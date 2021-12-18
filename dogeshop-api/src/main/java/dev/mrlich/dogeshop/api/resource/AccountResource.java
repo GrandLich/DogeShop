@@ -1,4 +1,4 @@
-package dev.mrlich.dogeshop.api;
+package dev.mrlich.dogeshop.api.resource;
 
 import dev.mrlich.dogeshop.api.dto.AccountDto;
 import dev.mrlich.dogeshop.api.dto.OrderDto;

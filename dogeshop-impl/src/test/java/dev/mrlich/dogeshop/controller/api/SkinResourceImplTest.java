@@ -1,8 +1,8 @@
 package dev.mrlich.dogeshop.controller.api;
 
 import dev.mrlich.dogeshop.api.dto.SkinDto;
-import dev.mrlich.dogeshop.api.exception.ActionIsNotAllowedException;
 import dev.mrlich.dogeshop.api.exception.EntityNotFoundException;
+import dev.mrlich.dogeshop.api.resources.impl.SkinResourceImpl;
 import dev.mrlich.dogeshop.entity.Skin;
 import dev.mrlich.dogeshop.service.SkinService;
 import dev.mrlich.dogeshop.util.test.TestUtils;
@@ -12,8 +12,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 
 import java.util.Optional;
 import java.util.UUID;

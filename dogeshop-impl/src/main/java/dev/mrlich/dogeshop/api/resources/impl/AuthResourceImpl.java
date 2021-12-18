@@ -1,6 +1,6 @@
-package dev.mrlich.dogeshop.controller.api;
+package dev.mrlich.dogeshop.api.resources.impl;
 
-import dev.mrlich.dogeshop.api.AuthResource;
+import dev.mrlich.dogeshop.api.resource.AuthResource;
 import dev.mrlich.dogeshop.api.dto.request.LoginRequest;
 import dev.mrlich.dogeshop.api.dto.response.LoginResponse;
 import dev.mrlich.dogeshop.api.exception.ActionIsNotAllowedException;
@@ -9,8 +9,6 @@ import dev.mrlich.dogeshop.auth.UserAuthentication;
 import dev.mrlich.dogeshop.entity.Account;
 import dev.mrlich.dogeshop.service.AccountService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Optional;

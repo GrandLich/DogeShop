@@ -1,4 +1,4 @@
-package dev.mrlich.dogeshop.api;
+package dev.mrlich.dogeshop.api.resource;
 
 import dev.mrlich.dogeshop.api.dto.request.LoginRequest;
 import dev.mrlich.dogeshop.api.dto.response.LoginResponse;

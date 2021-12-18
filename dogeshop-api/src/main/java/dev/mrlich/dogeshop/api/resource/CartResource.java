@@ -1,4 +1,4 @@
-package dev.mrlich.dogeshop.api;
+package dev.mrlich.dogeshop.api.resource;
 
 import dev.mrlich.dogeshop.api.dto.Currency;
 import dev.mrlich.dogeshop.api.dto.SkinDto;

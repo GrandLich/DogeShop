@@ -1,10 +1,10 @@
 package dev.mrlich.dogeshop.controller.api;
 
 import dev.mrlich.dogeshop.api.dto.SkinDto;
-import dev.mrlich.dogeshop.api.dto.response.MessageResponse;
 import dev.mrlich.dogeshop.api.exception.ActionIsNotAllowedException;
 import dev.mrlich.dogeshop.api.exception.EntityNotFoundException;
 import dev.mrlich.dogeshop.api.exception.NotEnoughMoneyException;
+import dev.mrlich.dogeshop.api.resources.impl.CartResourceImpl;
 import dev.mrlich.dogeshop.auth.UserAuthentication;
 import dev.mrlich.dogeshop.entity.Account;
 import dev.mrlich.dogeshop.entity.Skin;
@@ -18,8 +18,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 
 import java.math.BigDecimal;
 import java.util.Collections;
