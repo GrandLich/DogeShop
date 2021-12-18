@@ -8,7 +8,7 @@ spring:
     password: pass112311
     url: jdbc:postgresql://localhost:5432/dogeshop
   liquibase:
-    change-log: classpath:/db/changelog/db.changelog-master.xml
+    enabled: false
   messages:
     basename: languages.messages
   jpa:
