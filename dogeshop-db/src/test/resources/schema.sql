@@ -1,0 +1,2 @@
+CREATE USER dogeshop WITH PASSWORD 'dogepassword';
+CREATE SCHEMA AUTHORIZATION dogeshop;
