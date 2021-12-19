@@ -12,9 +12,13 @@
     <artifactId>dogeshop-db</artifactId>
 
     <properties>
-        <dogeshop.database.connection.url>jdbc:postgresql://localhost:5432/dogeshop</dogeshop.database.connection.url>
-        <dogeshop.database.connection.username>dogeshop</dogeshop.database.connection.username>
-        <dogeshop.database.connection.password>dogepassword</dogeshop.database.connection.password>
+        <liquibase.host>localhost</liquibase.host>
+        <liquibase.port>5432</liquibase.port>
+        <liquibase.db>dogeshop</liquibase.db>
+        <liquibase.schema>dogeshop</liquibase.schema>
+        <liquibase.user>dogeshop</liquibase.user>
+        <liquibase.password>dogepassword</liquibase.password>
+        <liquibase.changelogfile>db/changelog/db.changelog-master.xml</liquibase.changelogfile>
     </properties>
 
     <dependencies>
@@ -34,10 +38,13 @@
                 <groupId>org.liquibase</groupId>
                 <artifactId>liquibase-maven-plugin</artifactId>
                 <configuration>
-                    <changeLogFile>db/changelog/db.changelog-master.xml</changeLogFile>
-                    <url>${dogeshop.database.connection.url}</url>
-                    <username>${dogeshop.database.connection.username}</username>
-                    <password>${dogeshop.database.connection.password}</password>
+                    <outputFileEncoding>UTF-8</outputFileEncoding>
+                    <driver>org.postgresql.Driver</driver>
+                    <changeLogFile>${liquibase.changelogfile}</changeLogFile>
+                    <defaultSchemaName>${liquibase.schema}</defaultSchemaName>
+                    <url>jdbc:postgresql://${liquibase.host}:${liquibase.port}/${liquibase.db}</url>
+                    <username>${liquibase.user}</username>
+                    <password>${liquibase.password}</password>
                 </configuration>
             </plugin>
         </plugins>
