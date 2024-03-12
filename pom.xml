@@ -31,7 +31,7 @@
 		<spring.version>2.5.6</spring.version>
 		<liquibase.version>4.3.5</liquibase.version>
 		<lombok.version>1.18.22</lombok.version>
-		<postgresql.driver.version>42.3.0</postgresql.driver.version>
+		<postgresql.driver.version>42.3.9</postgresql.driver.version>
 		<orika.mapper.version>2.2.1</orika.mapper.version>
 		<swagger.version>2.9.2</swagger.version>
 	</properties>
