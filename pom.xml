@@ -29,7 +29,7 @@
 		<maven.compiler.target>11</maven.compiler.target>
 
 		<spring.version>2.5.12</spring.version>
-		<liquibase.version>4.3.5</liquibase.version>
+		<liquibase.version>4.8.0</liquibase.version>
 		<lombok.version>1.18.22</lombok.version>
 		<postgresql.driver.version>42.3.9</postgresql.driver.version>
 		<orika.mapper.version>2.2.1</orika.mapper.version>
